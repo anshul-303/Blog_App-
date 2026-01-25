@@ -16,9 +16,4 @@ app.use(
   }),
 );
 
-app.get("/", async (req, res) => {
-  const [result]=await pool.query("SHOW tables;");
-  res.status(200).json({ message: "ok" });
-});
-
 app.listen(process.env.PORT || 8000);

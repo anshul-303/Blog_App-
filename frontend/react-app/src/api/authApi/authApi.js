@@ -37,3 +37,28 @@ export async function SignupUser(
   }
 }
 
+export async function LoginUser(email, password, navigate) {
+  try {
+    const res = await fetch(`${URL}/auth/login`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      method: "POST",
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      console.log(data.role);
+      toast.success(data.message);
+    } else {
+      throw Error("Internal server error!");
+    }
+  } catch (error) {
+    console.log("Error detected! : ", error);
+    toast.error(data.message);
+  }
+}

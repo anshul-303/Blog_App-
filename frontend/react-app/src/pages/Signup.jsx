@@ -19,7 +19,6 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("The signup button is clicked!");
     await SignupUser(firstName, lastName, email, password, navigate);
   };
 

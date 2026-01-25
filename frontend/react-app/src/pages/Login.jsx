@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { LoginUser } from "../api/authApi/authApi";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -12,7 +13,11 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("The login button is clicked!");
+    try {
+      await LoginUser(email, password, navigate);
+    } catch (error) {
+      console.log("Error detected :", error);
+    }
   };
 
   return (

@@ -43,7 +43,14 @@ export default function Signup() {
             type="text"
             required
             placeholder="Enter your first name"
-            className="text-center w-[90%] border rounded-sm text-[1em] "
+            className="text-center w-[80%] border rounded-sm text-[1.3em] 
+            transition-all duration-300 ease-in-out
+            hover:border-gray-400
+            focus:outline-none 
+            focus:border-black 
+            focus:ring-2 focus:ring-gray-100
+            focus:scale-[1.02]
+            "
           />
         </div>
         <div className="h-auto w-[95%] flex flex-col justify-center items-center  p-1 gap-2">
@@ -61,7 +68,14 @@ export default function Signup() {
             type="text"
             required
             placeholder="Enter your last name"
-            className="text-center w-[90%] border rounded-sm text-[1em] "
+            className="text-center w-[80%] border rounded-sm text-[1.3em]  
+            
+            transition-all duration-300 ease-in-out
+            hover:border-gray-400
+            focus:outline-none 
+            focus:border-black 
+            focus:ring-2 focus:ring-gray-100
+            focus:scale-[1.02]"
           />
         </div>
         <div className="h-auto w-[95%] flex flex-col justify-center items-center  p-1 gap-2">
@@ -80,7 +94,14 @@ export default function Signup() {
             value={email}
             required
             placeholder="Enter your email"
-            className="text-center w-[90%] border rounded-sm text-[1em] "
+            className="text-center w-[80%] border rounded-sm text-[1.3em]  
+            
+            transition-all duration-300 ease-in-out
+            hover:border-gray-400
+            focus:outline-none 
+            focus:border-black 
+            focus:ring-2 focus:ring-gray-100
+            focus:scale-[1.02]"
           />
         </div>
         <div className="h-auto w-[95%] flex flex-col justify-center items-center  p-1 gap-2">
@@ -98,11 +119,20 @@ export default function Signup() {
             value={password}
             required
             placeholder="Enter your password"
-            className="text-center w-[90%] border rounded-sm text-[1em] "
+            className="text-center w-[80%] border rounded-sm text-[1.3em] 
+            
+            transition-all duration-300 ease-in-out
+            hover:border-gray-400
+            focus:outline-none 
+            focus:border-black 
+            focus:ring-2 focus:ring-gray-100
+            focus:scale-[1.02]"
           />
         </div>
         <button
-          className="w-[45%] p-1 border rounded-sm hover:bg-zinc-800 active:bg-zinc-700"
+          className="w-[45%] p-1 border rounded-sm hover:bg-zinc-800 active:bg-zinc-700
+          active:scale-[1.02] transition-transform duration-200
+          "
           type="submit"
         >
           Signup

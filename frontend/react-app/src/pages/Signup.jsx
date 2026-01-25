@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { SignupUser } from "../api/authApi/authApi";
 
 export default function Signup() {
+  
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -12,11 +14,13 @@ export default function Signup() {
     email: "",
     password: "",
   });
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("The signup button is clicked!");
+    await SignupUser(firstName, lastName, email, password, navigate);
   };
 
   return (

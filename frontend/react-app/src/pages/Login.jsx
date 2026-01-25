@@ -76,9 +76,12 @@ export default function Login() {
           />
         </div>
 
-        <button className="w-[45%] p-1 border rounded-sm hover:bg-zinc-800 active:bg-zinc-700
+        <button
+          className="w-[45%] p-1 border rounded-sm hover:bg-zinc-800 active:bg-zinc-700
         active:scale-95 transition-transform duration-150
-        " type="submit">
+        "
+          type="submit"
+        >
           Login
         </button>
         <div className="text-[0.9rem]  text-center ">

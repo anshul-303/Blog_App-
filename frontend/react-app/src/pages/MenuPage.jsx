@@ -24,7 +24,6 @@ export default function MenuPage() {
     if (!isAuthenticated) return;
     console.log(role);
 
-
     // Guard: Role-based access
     if (role !== "viewer") {
       navigate("/403");
@@ -47,7 +46,7 @@ export default function MenuPage() {
     };
 
     fetchtrial();
-  }, [isAuthenticated, role, navigate,]);
+  }, [isAuthenticated, role, navigate]);
 
   return (
     <div className="justify-center flex flex-col items-center h-screen w-screen text-center text-[2em] bg-zinc-900 text-white">

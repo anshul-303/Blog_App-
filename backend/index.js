@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import authRouter from "./routes/authRoutes.js";
+import { verifyJwt } from "./middleware/verifyJwt.js";
 
 dotenv.config({ quiet: true });
 const app = express();
@@ -16,6 +17,10 @@ app.use(
   }),
 );
 
-app.use("/auth", authRouter);
+app.use("/api/auth", authRouter);
+
+app.get("/api/test", verifyJwt, (req, res) => {
+  res.json({ message: "The access token is received successfully!" });
+});
 
 app.listen(process.env.PORT || 8000);

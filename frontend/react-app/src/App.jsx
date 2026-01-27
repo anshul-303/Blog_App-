@@ -2,12 +2,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Signup from "./pages/Signup.jsx";
 import Login from "./pages/Login.jsx";
 import { Toaster } from "react-hot-toast";
+import MenuPage from "./pages/MenuPage.jsx";
+import MyBlogs from "./pages/author/MyBlogs.jsx";
+import NotAllowed from "./pages/NotAllowed.jsx";
 
 export default function App() {
   return (
     <>
       <BrowserRouter>
-
         <Toaster
           toastOptions={{
             // Default style for all toasts
@@ -37,6 +39,10 @@ export default function App() {
           <Route path="/" element={<Signup />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/menu" element={<MenuPage />} />
+          <Route path="/author/my-blogs" element={<MyBlogs />} />
+                    <Route path="/403" element={<NotAllowed />} />
+
         </Routes>
       </BrowserRouter>
     </>

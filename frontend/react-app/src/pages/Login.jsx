@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { LoginUser } from "../api/authApi/authApi";
+import { LoginUser } from "../api/authApi/authApi.js";
+import { useAuth } from "../contexts/authContext.jsx";
+import { useRole } from "../contexts/roleContexts.jsx";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -10,11 +12,13 @@ export default function Login() {
     password: "",
   });
   const navigate = useNavigate();
+  const { setRole } = useRole();
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await LoginUser(email, password, navigate);
+      await LoginUser(email, password, navigate, setIsAuthenticated, setRole);
     } catch (error) {
       console.log("Error detected :", error);
     }

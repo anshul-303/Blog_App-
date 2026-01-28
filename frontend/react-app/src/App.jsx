@@ -40,7 +40,7 @@ export default function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/menu" element={<MenuPage />} />
-          <Route path="/author/my-blogs" element={<MyBlogs />} />
+          <Route path="/my-blogs" element={<MyBlogs />} />
                     <Route path="/403" element={<NotAllowed />} />
 
         </Routes>

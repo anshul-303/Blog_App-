@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { LogoutUser } from "../api/authApi/authApi.js";
 import { useAuth } from "../contexts/authContext.jsx";
 import { useRole } from "../contexts/roleContexts.jsx";
 import { checkAuth } from "../api/authApi/authApi.js";
+import Navbar from "../components/Navbar.jsx";
 
 export default function MenuPage() {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ export default function MenuPage() {
     console.log(role);
 
     // Guard: Role-based access
-    if (role !== "viewer") {
+    if (role !== "author") {
       navigate("/403");
       return;
     }
@@ -49,32 +50,20 @@ export default function MenuPage() {
   }, [isAuthenticated, role, navigate]);
 
   return (
-    <div className="justify-center flex flex-col items-center h-screen w-screen text-center text-[2em] bg-zinc-900 text-white">
-      <p>
-        <Link to={"/author/my-blogs"} className="underline">
-          My blogs
-        </Link>
-      </p>
-      <p>
-        <Link to={"/home"} className="underline">
-          Home
-        </Link>{" "}
-      </p>
-      <p>
-        <Link to={"/menu"} className="underline">
-          Menu
-        </Link>
-      </p>
-      <button
-        className="w-[20%] p-1 border rounded-sm hover:bg-zinc-800 active:bg-zinc-700
+    <>
+      <Navbar />
+      <div className="justify-center flex flex-col items-center h-screen w-screen text-center text-[2em] bg-zinc-900 text-white">
+        <button
+          className="w-[20%] p-1 border rounded-sm hover:bg-zinc-800 active:bg-zinc-700
         active:scale-95 transition-transform duration-150
         "
-        onClick={() => {
-          LogoutUser(navigate, setIsAuthenticated, setRole);
-        }}
-      >
-        Log out
-      </button>
-    </div>
+          onClick={() => {
+            LogoutUser(navigate, setIsAuthenticated, setRole);
+          }}
+        >
+          Log out
+        </button>
+      </div>
+    </>
   );
 }

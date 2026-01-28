@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useRole } from "../contexts/roleContexts.jsx";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const { role, setRole } = useRole();
 
   return (
     <nav className="fixed w-full bg-black text-white px-6 py-4 flex items-center justify-between">
@@ -10,18 +12,53 @@ export default function Navbar() {
 
       {/* Desktop Nav */}
       <ul className="hidden md:flex gap-8 font-medium">
-        <li className="underline">
-          <Link to="/home">Home</Link>
-        </li>
-        <li className="underline">
-          <Link to="/my-blogs">My Blogs</Link>
-        </li>
-        <li className="underline">
-          <Link to="/create-blog">Create</Link>
-        </li>
-        <li className="underline">
-          <Link to="/menu">Menu</Link>
-        </li>
+        {role === "author" && (
+          <>
+            <li className="underline">
+              <Link to="/home">Home</Link>
+            </li>
+            <li className="underline">
+              <Link to="/my-blogs">My Blogs</Link>
+            </li>
+            <li className="underline">
+              <Link to="/create-blog">Create</Link>
+            </li>
+            <li className="underline">
+              <Link to="/menu">Menu</Link>
+            </li>
+          </>
+        )}
+
+        {role === "author" && (
+          <>
+            <li className="underline">
+              <Link to="/home">Home</Link>
+            </li>
+            <li className="underline">
+              <Link to="/blogs/liked">Liked Blogs</Link>
+            </li>
+            <li className="underline">
+              <Link to="/menu">Menu</Link>
+            </li>
+          </>
+        )}
+
+        {role === "admin" && (
+          <>
+            <li className="underline">
+              <Link to="/admin/users">All Users</Link>
+            </li>
+            <li className="underline">
+              <Link to="/blogs/liked">Liked Blogs</Link>
+            </li>
+            <li className="underline">
+              <Link to="/admin/requests">Admin Requests</Link>
+            </li>
+            <li className="underline">
+              <Link to="/menu">Menu</Link>
+            </li>
+          </>
+        )}
       </ul>
 
       {/* Hamburger (Mobile) */}
@@ -39,18 +76,53 @@ export default function Navbar() {
         </button>
 
         <ul className="flex flex-col gap-6 text-lg">
-          <li className="underline" onClick={() => setOpen(false)}>
-            <Link to="/home">Home</Link>
-          </li>
-          <li className="underline" onClick={() => setOpen(false)}>
-            <Link to="/my-blogs">My Blogs</Link>
-          </li>
-          <li className="underline" onClick={() => setOpen(false)}>
-            <Link to="/create-blog">Create</Link>
-          </li>
-          <li className="underline" onClick={() => setOpen(false)}>
-            <Link to="/menu">Menu</Link>
-          </li>
+          {role === "author" && (
+            <>
+              <li className="underline" onClick={() => setOpen(false)}>
+                <Link to="/home">Home</Link>
+              </li>
+              <li className="underline" onClick={() => setOpen(false)}>
+                <Link to="/my-blogs">My Blogs</Link>
+              </li>
+              <li className="underline" onClick={() => setOpen(false)}>
+                <Link to="/create-blog">Create</Link>
+              </li>
+              <li className="underline" onClick={() => setOpen(false)}>
+                <Link to="/menu">Menu</Link>
+              </li>
+            </>
+          )}
+
+          {role === "viewer" && (
+            <>
+              <li className="underline" onClick={() => setOpen(false)}>
+                <Link to="/home">Home</Link>
+              </li>
+              <li className="underline" onClick={() => setOpen(false)}>
+                <Link to="/blogs/liked">Liked Blogs</Link>
+              </li>
+              <li className="underline" onClick={() => setOpen(false)}>
+                <Link to="/menu">Menu</Link>
+              </li>
+            </>
+          )}
+
+          {role === "admin" && (
+            <>
+              <li className="underline" onClick={() => setOpen(false)}>
+                <Link to="/admin/users">All Users</Link>
+              </li>
+              <li className="underline" onClick={() => setOpen(false)}>
+                <Link to="/admin/blogs">All blogs</Link>
+              </li>
+              <li className="underline" onClick={() => setOpen(false)}>
+                <Link to="/admin/requests">Admin Requests</Link>
+              </li>
+              <li className="underline" onClick={() => setOpen(false)}>
+                <Link to="/menu">Menu</Link>
+              </li>
+            </>
+          )}
         </ul>
       </div>
     </nav>

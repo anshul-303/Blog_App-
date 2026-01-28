@@ -23,13 +23,12 @@ export default function MenuPage() {
 
   useEffect(() => {
     if (!isAuthenticated) return;
-    console.log(role);
 
     // Guard: Role-based access
-    if (role !== "author") {
-      navigate("/403");
-      return;
-    }
+    // if (role !== "author" && role) {
+    //   navigate("/403");
+    //   return;
+    // }
     const fetchtrial = async () => {
       const res = await fetch(`${url}/test`, {
         credentials: "include",

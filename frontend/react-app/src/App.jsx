@@ -41,8 +41,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/menu" element={<MenuPage />} />
           <Route path="/my-blogs" element={<MyBlogs />} />
-                    <Route path="/403" element={<NotAllowed />} />
-
+          <Route path="/403" element={<NotAllowed />} />
         </Routes>
       </BrowserRouter>
     </>

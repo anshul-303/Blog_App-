@@ -136,7 +136,6 @@ export const getNewAccessToken = async (req, res) => {
   if (foundUser.length === 0) {
     res.status(404).json({ messasge: "Unauthorized!" });
   } else if (foundUser.length === 1) {
-    console.log("New access token is issued!");
     const newAccessToken = jwt.sign(
       {
         userId: foundUser[0].userId,

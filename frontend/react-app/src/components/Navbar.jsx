@@ -24,17 +24,6 @@ export default function Navbar() {
               <Link to="/create-blog">Create</Link>
             </li>
             <li className="underline">
-              <Link to="/menu">Menu</Link>
-            </li>
-          </>
-        )}
-
-        {role === "author" && (
-          <>
-            <li className="underline">
-              <Link to="/home">Home</Link>
-            </li>
-            <li className="underline">
               <Link to="/blogs/liked">Liked Blogs</Link>
             </li>
             <li className="underline">
@@ -86,6 +75,9 @@ export default function Navbar() {
               </li>
               <li className="underline" onClick={() => setOpen(false)}>
                 <Link to="/create-blog">Create</Link>
+              </li>
+              <li className="underline" onClick={() => setOpen(false)}>
+                <Link to="/blogs/liked">Liked Blogs</Link>
               </li>
               <li className="underline" onClick={() => setOpen(false)}>
                 <Link to="/menu">Menu</Link>

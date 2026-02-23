@@ -38,10 +38,25 @@ export default function Navbar() {
               <Link to="/admin/users">All Users</Link>
             </li>
             <li className="underline">
-              <Link to="/blogs/liked">Liked Blogs</Link>
+              <Link to="/admin/blogs">All blogs</Link>
             </li>
+
             <li className="underline">
               <Link to="/admin/requests">Admin Requests</Link>
+            </li>
+            <li className="underline">
+              <Link to="/menu">Menu</Link>
+            </li>
+          </>
+        )}
+
+        {role === "viewer" && (
+          <>
+            <li className="underline">
+              <Link to="/home">Home</Link>
+            </li>
+            <li className="underline">
+              <Link to="/blogs/liked">Liked Blogs</Link>
             </li>
             <li className="underline">
               <Link to="/menu">Menu</Link>

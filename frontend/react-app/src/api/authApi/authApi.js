@@ -1,5 +1,4 @@
 import toast from "react-hot-toast";
-
 const URL = import.meta.env.VITE_APP_API_URL;
 
 export async function SignupUser(

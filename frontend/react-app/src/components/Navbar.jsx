@@ -6,7 +6,9 @@ export default function Navbar() {
   const { role, setRole } = useRole();
 
   return (
-    <nav className="fixed w-full bg-black text-white px-6 py-4 flex items-center justify-between">
+    // <nav className="fixed w-full bg-black text-white px-6 py-4 flex items-center justify-between">
+    // <nav className="sticky top-0 z-50 w-full bg-black text-white px-6 py-4 flex items-center justify-between">
+    <nav className=" w-full bg-black text-white px-6 py-4 flex items-center justify-between">
       {/* Logo */}
       <div className="text-xl font-bold">BlogIT</div>
 

@@ -53,12 +53,10 @@ export default function CreateBlog() {
     <>
       <div className="overflow-hidden">
         <Navbar />
-        <div className="h-screen max-w-screen flex flex-col justify-center items-center text-white bg-zinc-900  border border-white border-[2px] ">
-          Create Blog page
+        <div className="h-screen max-w-screen flex flex-col justify-top p-3 items-center text-white bg-zinc-900  border border-white border-[2px] ">
+          <input type="text" className="bg-zinc-800  text-center text-[1em] w-[95%] h-[2em] border border-[2px] border-white rounded-sm" placeholder="Enter the title of the blog"/>
         </div>
-        <div  className="h-screen max-w-screen flex flex-col justify-center items-center text-white bg-zinc-900  border border-white border-[2px] ">
-          <Link to="/menu" className="underline ">Back to menu</Link>
-        </div>
+
       </div>
     </>
   );

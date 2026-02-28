@@ -16,19 +16,19 @@ export default function Navbar() {
       <ul className="hidden md:flex gap-8 font-medium">
         {role === "author" && (
           <>
-            <li className="underline">
+            <li>
               <Link to="/home">Home</Link>
             </li>
-            <li className="underline">
+            <li>
               <Link to="/my-blogs">My Blogs</Link>
             </li>
-            <li className="underline">
+            <li className="">
               <Link to="/create-blog">Create</Link>
             </li>
-            <li className="underline">
+            <li className="">
               <Link to="/blogs/liked">Liked Blogs</Link>
             </li>
-            <li className="underline">
+            <li className="">
               <Link to="/menu">Menu</Link>
             </li>
           </>

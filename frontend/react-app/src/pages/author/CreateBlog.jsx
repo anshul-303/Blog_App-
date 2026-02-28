@@ -53,15 +53,18 @@ export default function CreateBlog() {
     <>
       <div className="overflow-hidden">
         <Navbar />
-        <div className="max-w-screen h-[5vw] flex justify-center items-center text-white text-[1.5em] bg-zinc-900 border-b-[1px] border-zinc-600">
-          <p className=" w-[97.5%] flex justify-center items-center">Create a Blog </p>
+        <div className="max-w-screen md:h-[4vw] h-[4vh] flex justify-center items-center text-white text-[1.5em] bg-zinc-900 border-b-[1px] border-zinc-600">
+          <p className=" w-[97.5%] flex justify-center items-center">
+            Create a Blog{" "}
+          </p>
         </div>
-        <div className="h-screen max-w-screen flex flex-col justify-top p-3 items-center text-white bg-zinc-900  ">
-          {/* <input
-            type="text"
-            className="bg-zinc-800  text-center text-[1em] w-[95%] h-[2em] border border-[2px] border-white rounded-sm"
-            placeholder="Enter the title of the blog"
-          /> */}
+        <div className="w-full flex flex-col md:flex-row   ">
+          <div className="w-full min-h-[50vh] md:w-[60vw] md:min-h-[100vh] bg-zinc-800 flex justify-center items-center border-r-[2px] border-zinc-700">
+            Input div
+          </div>
+          <div className="w-full min-h-[50vh] md:w-[40vw] md:min-h-[100vh]  bg-zinc-800 flex justify-center items-center">
+            Preview div
+          </div>
         </div>
       </div>
     </>

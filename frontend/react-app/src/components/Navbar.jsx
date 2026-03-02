@@ -27,7 +27,7 @@ export default function Navbar() {
             </li>
             <li className="">
               <Link to="/blogs/liked">
-                <span className="text-rose-600">♡</span>Liked Blogs
+                <span className="text-rose-600">♡ </span> Liked Blogs
               </Link>
             </li>
             <li className="">

@@ -62,7 +62,7 @@ export default function CreateBlog() {
             Create a Blog
           </p>
         </div>
-        <div className="w-full flex flex-col py-4 ">
+        <div className="w-full flex flex-col py-4">
           <div className="p-1  max-w-full min-h-[50vh] bg-zinc-800 flex justify-center items-center border-white border-zinc-700">
             <div className="w-[97.5%] min-h-[50vh] flex flex-col py-3 px-7 text-[1.25em]  border border-zinc-700 border-[2px] text-white rounded-sm gap-2 pb-5 ">
               <p className="w-[97.5%] text-[1.4em] font-bold uppercase tracking-widest text-zinc-200">
@@ -177,12 +177,25 @@ export default function CreateBlog() {
           <p className="p-2 w-full flex justify-center items-center text-zinc-300 text-[2rem] font-bold text-md my-2">
             BLOG PREVIEW
           </p>
-          <div className="p-1 max-w-full min-h-[50vh] bg-zinc-800 flex justify-center items-center border-white border-zinc-700">
-            <div
-              className="w-[97.5%] min-h-[50vh] flex justify-center items-center border border-zinc-700 border-[2px] text-white rounded-sm"
-              alt="This is an image"
-            >
-              
+          <div className="px-1 py-5 max-w-full min-h-[50vh] bg-zinc-900 flex justify-center items-center border-white border-zinc-700">
+            <div className="w-[97.5%] min-h-[50vh] flex flex-col  justify-top py-5 items-center text-white rounded-sm border border-zinc-700 border-[2px]">
+              <div className="flex  flex-col justify-top w-[80%] md:w-[60%]  gap-3">
+                <p className="font-bold text-[2.5rem] text-white">{title}</p>
+                <p className="font-semi text-[1.3rem] text-zinc-500">
+                  {summary}
+                </p>
+                <div className="flex gap-5">
+                  <p className="font-semi text-[1.1rem] text-zinc-500">
+                    👤 Sarah Chen
+                  </p>
+                  <p className="font-semi text-[1.1rem] text-zinc-500 ">
+                    📅 10 June,2024
+                  </p>
+                </div>
+                <div className="font text-[1.1rem] text-white whitespace-pre-line">
+                  {body}
+                </div>
+              </div>
             </div>
           </div>
         </div>

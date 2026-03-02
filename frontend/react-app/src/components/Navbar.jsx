@@ -13,20 +13,22 @@ export default function Navbar() {
       <div className="text-xl font-bold">BlogIT</div>
 
       {/* Desktop Nav */}
-      <ul className="hidden md:flex gap-8 font-medium">
+      <ul className="hidden md:flex gap-6 font-medium text-[1.1em] text-zinc-500">
         {role === "author" && (
           <>
             <li>
               <Link to="/home">Home</Link>
             </li>
-            <li>
-              <Link to="/my-blogs">My Blogs</Link>
-            </li>
             <li className="">
+              <Link to="/my-blogs"> My Blogs</Link>
+            </li>
+            <li className="pr-2">
               <Link to="/create-blog">Create</Link>
             </li>
             <li className="">
-              <Link to="/blogs/liked">Liked Blogs</Link>
+              <Link to="/blogs/liked">
+                <span className="text-rose-600">♡</span>Liked Blogs
+              </Link>
             </li>
             <li className="">
               <Link to="/menu">Menu</Link>

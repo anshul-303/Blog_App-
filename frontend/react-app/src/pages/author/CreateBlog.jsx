@@ -186,10 +186,10 @@ export default function CreateBlog() {
                 </p>
                 <div className="flex gap-5">
                   <p className="font-semi text-[1.1rem] text-zinc-500">
-                    👤 Sarah Chen
+                    Eg : 👤 Sarah Chen
                   </p>
                   <p className="font-semi text-[1.1rem] text-zinc-500 ">
-                    📅 10 June,2024
+                    Eg : 📅 10 June,2024
                   </p>
                 </div>
                 <div className="font text-[1.1rem] text-white whitespace-pre-line">

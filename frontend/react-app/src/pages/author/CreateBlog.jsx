@@ -199,10 +199,31 @@ export default function CreateBlog() {
             </div>
           </div>
         </div>
-        <div className="max-w-screen md:h-[4vw] h-[4vh] flex justify-center items-center text-white text-[1.5em] bg-zinc-900 border-b-[1px] border-zinc-600">
-          <p className=" w-[97.5%] flex justify-center items-center">
-            The submit and draft options
-          </p>
+        <div className="max-w-screen md:h-[4vw] min-h-[4vh] flex-col md:flex-row flex justify-center items-center text-white text-[1.5em] gap-5 md:gap-7 bg-zinc-900 md:py-8 py-6 border-b-[1px] border-zinc-600">
+          {/* <button className="w-[90%] md:w-[45%] border-white border border-[2px] rounded-lg bg-zinc-800">Submit</button>
+          <button className=" w-[90%]  md:w-[45%] border-white border border-[2px] rounded-lg bg-zinc-800">Draft</button> */}
+          <button
+            className="
+              w-90 md:w-40 px-6 py-2.5 
+              bg-zinc-100 text-zinc-900 
+              font-semibold text-base rounded-lg 
+              hover:bg-white hover:scale-[1.02] 
+              active:scale-95 transition-all duration-200"
+          >
+            Submit
+          </button>
+
+          {/* Secondary Action: Draft */}
+          <button
+            className="
+              w-90 md:w-40 px-6 py-2.5 
+              bg-zinc-800 text-zinc-100 border border-zinc-700
+              font-medium text-base rounded-lg 
+              hover:bg-zinc-700 hover:border-zinc-600 
+              active:scale-95 transition-all duration-200"
+          >
+            Draft
+          </button>
         </div>
       </div>
     </>

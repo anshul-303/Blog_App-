@@ -45,7 +45,7 @@ export default function App() {
           <Route path="/menu" element={<MenuPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/create-blog" element={<CreateBlog />} />
-          <Route path="/blogs/liked/" element={<LikedBlogs />} />
+          <Route path="/liked" element={<LikedBlogs />} />
           <Route path="/home" element={<Home />} />
 
           <Route path="/403" element={<NotAllowed />} />

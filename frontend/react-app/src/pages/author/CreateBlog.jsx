@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext.jsx";
 import { checkAuth } from "../../api/authApi/authApi.js";
 import { useRole } from "../../contexts/roleContexts.jsx";
+import { AddBlogToDB } from "../../api/authApi/authorApi.js";
 
 export default function CreateBlog() {
   const navigate = useNavigate();
@@ -145,6 +146,7 @@ export default function CreateBlog() {
                   <textarea
                     value={headimageUrl}
                     onChange={(e) => setHeadImageUrl(e.target.value)}
+                    spellCheck="false"
                     placeholder="Paste image URL here..."
                     className="
                         w-full min-h-[160px] sm:min-h-[50vh]
@@ -184,12 +186,17 @@ export default function CreateBlog() {
                 <p className="font-semi text-[1.3rem] text-zinc-500">
                   {summary}
                 </p>
+                <img
+                  src={headimageUrl || "/image_placeholder.jpg"}
+                  alt="Head preview"
+                  className="w-[80%] h-[60%] object-cover transition-transform duration-300 hover:scale-[1.02] rounded-sm py-6"
+                />
                 <div className="flex gap-5">
                   <p className="font-semi text-[1.1rem] text-zinc-500">
-                    Eg : 👤 Sarah Chen
+                    👤 Rohit D'Souza
                   </p>
                   <p className="font-semi text-[1.1rem] text-zinc-500 ">
-                    Eg : 📅 10 June,2024
+                    📅 10 June,2026
                   </p>
                 </div>
                 <div className="font text-[1.1rem] text-white whitespace-pre-line">
@@ -209,6 +216,16 @@ export default function CreateBlog() {
               font-semibold text-base rounded-lg 
               hover:bg-white hover:scale-[1.02] 
               active:scale-95 transition-all duration-200"
+            onClick={() => {
+              AddBlogToDB(
+                title,
+                summary,
+                body,
+                headimageUrl,
+                "submit",
+                navigate,
+              );
+            }}
           >
             Submit
           </button>
@@ -221,6 +238,16 @@ export default function CreateBlog() {
               font-medium text-base rounded-lg 
               hover:bg-zinc-700 hover:border-zinc-600 
               active:scale-95 transition-all duration-200"
+            onClick={() => {
+              AddBlogToDB(
+                title,
+                summary,
+                body,
+                headimageUrl,
+                "draft",
+                navigate,
+              );
+            }}
           >
             Draft
           </button>

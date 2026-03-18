@@ -1,0 +1,37 @@
+import pool from "../config/dbconfig.js";
+
+export async function AddBlogToDB(req, res) {
+  try {
+    const { blogBody, summary, title, headImageURL, action } = req.body;
+    const userId = req.userId;
+    const status = action.toLowerCase() === "submit" ? "submitted" : "draft";
+    const role = req.role;
+
+    if (role != "author") {
+      return res.status(403).json({
+        message: "Only author is authorized to create or draft blogs.",
+      });
+    }
+    if (action.toLowerCase() != "submit" && action.toLowerCase() != "draft") {
+      return res.status(400).json({ message: "Invalid action!" });
+    }
+    if (!title || !summary || !blogBody || !headImageURL || !action) {
+      return res.status(400).json({ message: "All fields are required!" });
+    }
+
+    await pool.query(
+      `INSERT INTO blogs 
+        (authorId, title, summary, body, headImageUrl, status)  
+        VALUES (?, ?, ?, ?, ?, ?);
+            `,
+      [userId, title, summary, blogBody, headImageURL, status],
+    );
+
+    return res
+      .status(201)
+      .json({ message: `Blog added created successfully ` });
+  } catch (error) {
+    console.log("Error detected! : ", error);
+    return res.status(500).json({ message: "Internal server error!" });
+  }
+}

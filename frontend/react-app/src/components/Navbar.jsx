@@ -20,7 +20,7 @@ export default function Navbar() {
               <Link to="/home">Home</Link>
             </li>
             <li className="">
-              <Link to="/my-blogs"> My Blogs</Link>
+              <Link to="/dashboard"> Dashboard</Link>
             </li>
             <li className="pr-2">
               <Link to="/create-blog">Create</Link>
@@ -90,7 +90,7 @@ export default function Navbar() {
                 <Link to="/home">Home</Link>
               </li>
               <li className="underline" onClick={() => setOpen(false)}>
-                <Link to="/my-blogs">My Blogs</Link>
+                <Link to="/dashboard">Dashboard</Link>
               </li>
               <li className="underline" onClick={() => setOpen(false)}>
                 <Link to="/create-blog">Create</Link>

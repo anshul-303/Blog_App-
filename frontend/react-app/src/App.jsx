@@ -3,11 +3,11 @@ import Signup from "./pages/Signup.jsx";
 import Login from "./pages/Login.jsx";
 import { Toaster } from "react-hot-toast";
 import MenuPage from "./pages/MenuPage.jsx";
-import MyBlogs from "./pages/author/MyBlogs.jsx";
 import NotAllowed from "./pages/NotAllowed.jsx";
 import CreateBlog from "./pages/author/CreateBlog.jsx";
 import LikedBlogs from "./pages/LikedBlogs.jsx";
 import Home from "./pages/Home.jsx";
+import Dashboard from "./pages/author/Dashboard.jsx";
 
 export default function App() {
   return (
@@ -43,7 +43,7 @@ export default function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/menu" element={<MenuPage />} />
-          <Route path="/my-blogs" element={<MyBlogs />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/create-blog" element={<CreateBlog />} />
           <Route path="/blogs/liked/" element={<LikedBlogs />} />
           <Route path="/home" element={<Home />} />

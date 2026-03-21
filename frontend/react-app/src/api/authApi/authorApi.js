@@ -9,6 +9,11 @@ export async function AddBlogToDB(
   action,
   navigate,
 ) {
+  try {
+    if (!title || !summary || !headImageURL || !blogBody || !action){
+    toast.error("All fields are mandatory!");
+    return;
+  }
   const res = await fetch(`${URL}/author/`, {
     credentials: "include",
     method: "POST",
@@ -52,4 +57,8 @@ export async function AddBlogToDB(
       return;
     }
   }
+  } catch (error) {
+    console.log("Error detected : ", error);
+  }
+  
 }

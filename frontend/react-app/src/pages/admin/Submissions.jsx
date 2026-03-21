@@ -58,7 +58,7 @@ export default function Submissions() {
           </p>
         </div>
         <div className="w-full  py-4 flex flex-col">
-          <div className="border-[4px] border-zinc-700 rounded-lg w-[95vw] md:w-[97vw] md:min-h-[22.5vh] h-[25vh] gap-4 flex flex-col ml-2 py-2">
+          <div className="border-[4px] border-zinc-700 rounded-lg w-[95vw] md:w-[97vw] md:min-h-[22.5vh] h-[25vh] gap-4 flex flex-col ml-3 py-2">
             <p className="pl-4 font-bold uppercase tracking-widest text-zinc-200">
               Summary
             </p>

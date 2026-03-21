@@ -8,6 +8,10 @@ import CreateBlog from "./pages/author/CreateBlog.jsx";
 import LikedBlogs from "./pages/LikedBlogs.jsx";
 import Home from "./pages/Home.jsx";
 import Dashboard from "./pages/author/Dashboard.jsx";
+import Submissions from "./pages/admin/Submissions.jsx";
+import Requests from "./pages/admin/Requests.jsx";
+import Users from "./pages/admin/Users.jsx";
+import BlogListAdmin from "./pages/admin/BlogListAdmin.jsx";
 
 export default function App() {
   return (
@@ -47,6 +51,10 @@ export default function App() {
           <Route path="/create-blog" element={<CreateBlog />} />
           <Route path="/liked" element={<LikedBlogs />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/admin/submissions" element={<Submissions />} />
+          <Route path="/admin/requests" element={<Requests />} />
+          <Route path="/admin/blogs" element={<BlogListAdmin />} />
+          <Route path="/admin/users" element={<Users />} />
 
           <Route path="/403" element={<NotAllowed />} />
         </Routes>

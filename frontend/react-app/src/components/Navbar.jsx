@@ -39,14 +39,14 @@ export default function Navbar() {
         {role === "admin" && (
           <>
             <li className="underline">
-              <Link to="/admin/users">All Users</Link>
+              <Link to="/admin/users">Users</Link>
             </li>
             <li className="underline">
-              <Link to="/admin/blogs">All blogs</Link>
+              <Link to="/admin/submissions">Submissions</Link>
             </li>
 
             <li className="underline">
-              <Link to="/admin/requests">Admin Requests</Link>
+              <Link to="/admin/requests">Requests</Link>
             </li>
             <li className="underline">
               <Link to="/menu">Menu</Link>
@@ -121,13 +121,13 @@ export default function Navbar() {
           {role === "admin" && (
             <>
               <li className="underline" onClick={() => setOpen(false)}>
-                <Link to="/admin/users">All Users</Link>
+                <Link to="/admin/users">Users</Link>
               </li>
               <li className="underline" onClick={() => setOpen(false)}>
-                <Link to="/admin/blogs">All blogs</Link>
+              <Link to="/admin/submissions">Submissions</Link>
               </li>
               <li className="underline" onClick={() => setOpen(false)}>
-                <Link to="/admin/requests">Admin Requests</Link>
+                <Link to="/admin/requests">Requests</Link>
               </li>
               <li className="underline" onClick={() => setOpen(false)}>
                 <Link to="/menu">Menu</Link>

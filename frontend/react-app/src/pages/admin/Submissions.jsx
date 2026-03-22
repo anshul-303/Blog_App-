@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext.jsx";
 import { checkAuth } from "../../api/authApi/authApi.js";
 import { useRole } from "../../contexts/roleContexts.jsx";
+import AdminSubmissionCard from "../../components/admin/AdminSubmissionCard.jsx";
 
 export default function Submissions() {
   const navigate = useNavigate();
@@ -59,17 +60,49 @@ export default function Submissions() {
         </div>
         <div className="w-full  py-4 flex flex-col">
           <div className="border-[4px] border-zinc-700 rounded-lg w-[95vw] md:w-[97vw] md:min-h-[22.5vh] h-[25vh] gap-4 flex flex-col ml-3 py-2">
-            <p className="pl-4 font-bold uppercase tracking-widest text-zinc-200">
+            <p className="pl-5 font-bold uppercase tracking-widest text-zinc-200">
               Summary
             </p>
             <div className="w-full md:h-full h-[70%] flex gap-4 flex-wrap md:justify-center justify-start items-center pl-2">
-              <div className="h-[50%] w-[47%] md:h-[90%] md:w-[23%] border rounded-lg border-zinc-700 border-[3px] rounded-lg "></div>
-              <div className="h-[50%] w-[47%] md:h-[90%] md:w-[24%] border rounded-lg border-zinc-700 border-[3px] rounded-lg "></div>
-              <div className="h-[50%] w-[47%] md:h-[90%] md:w-[24%] border rounded-lg border-zinc-700 border-[3px] rounded-lg "></div>
-              <div className="h-[50%] w-[47%] md:h-[90%] md:w-[24%] border rounded-lg border-zinc-700 border-[3px] rounded-lg "></div>
+              <div className="h-[50%] w-[47%] md:h-[90%] md:w-[23%] flex flex-col justify-center items-center gap-2 border rounded-lg border-zinc-700 border-[3px] rounded-lg ">
+                <p className="font-bold text-xs md:text-sm uppercase tracking-widest text-zinc-200">
+                  Submissions
+                </p>
+                <p className="text-3xl font-bold text-white">6</p>
+              </div>
+              <div className="h-[50%] w-[47%] md:h-[90%] md:w-[24%] flex flex-col justify-center items-center gap-2 border rounded-lg border-zinc-700 border-[3px] rounded-lg ">
+                <p className="font-bold text-xs md:text-sm uppercase tracking-widest text-yellow-500">
+                  Pending
+                </p>
+                <p className="text-3xl font-bold text-white">6</p>
+              </div>
+              <div className="h-[50%] w-[47%] md:h-[90%] md:w-[24%] flex flex-col justify-center items-center gap-2 border rounded-lg border-zinc-700 border-[3px] rounded-lg ">
+                <p className="font-bold text-xs md:text-sm uppercase tracking-widest text-emerald-400">
+                  Published
+                </p>
+                <p className="text-3xl font-bold text-white">6</p>
+              </div>
+              <div className="h-[50%] w-[47%] md:h-[90%] md:w-[24%] flex flex-col justify-center items-center gap-2 border rounded-lg border-zinc-700 border-[3px] rounded-lg ">
+                <p className="font-bold text-xs md:text-sm uppercase tracking-widest text-rose-600">
+                  Rejected
+                </p>
+                <p className="text-3xl font-bold text-white">6</p>
+              </div>
             </div>
           </div>
-          <div className="w-[100vw] h-[60vh] border-t mt-5"></div>
+          <div className="w-[100vw] h-1 my-3">
+            <div className=" ml-3 w-[95vw] md:w-[97vw] h-[1px] border-t rounded-lg border-zinc-600"></div>
+          </div>
+          <div
+            className="w-[100vw] min-h-[60vh] 
+          
+           flex flex-col gap-5 justify-start pl-3"
+          >
+            <AdminSubmissionCard />
+            <AdminSubmissionCard />
+
+          </div>
+          <div></div>
         </div>
       </div>
     </>

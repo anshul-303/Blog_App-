@@ -100,7 +100,6 @@ export default function Submissions() {
           >
             <AdminSubmissionCard />
             <AdminSubmissionCard />
-
           </div>
           <div></div>
         </div>

@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Signup from "./pages/Signup.jsx";
-import Login from "./pages/Login.jsx";
+import Signup from "./pages/auth/Signup.jsx";
+import Login from "./pages/auth/Login.jsx";
 import { Toaster } from "react-hot-toast";
 import MenuPage from "./pages/MenuPage.jsx";
 import NotAllowed from "./pages/NotAllowed.jsx";

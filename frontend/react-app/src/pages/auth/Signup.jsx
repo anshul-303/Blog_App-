@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { SignupUser } from "../api/authApi/authApi";
+import { SignupUser } from "../../api/authApi/authApi";
 
 export default function Signup() {
   

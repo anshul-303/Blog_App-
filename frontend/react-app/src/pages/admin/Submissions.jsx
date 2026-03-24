@@ -6,12 +6,29 @@ import { useAuth } from "../../contexts/authContext.jsx";
 import { checkAuth } from "../../api/authApi/authApi.js";
 import { useRole } from "../../contexts/roleContexts.jsx";
 import AdminSubmissionCard from "../../components/admin/AdminSubmissionCard.jsx";
+import { getSubmissions } from "../../api/authApi/adminApi.js";
 
 export default function Submissions() {
   const navigate = useNavigate();
   const { isAuthenticated, setIsAuthenticated } = useAuth();
   const { role, setRole } = useRole();
   const url = import.meta.env.VITE_APP_API_URL;
+
+  //All the useStates below contain the data which is the infromation required for this page.
+  const [submissionsCount, setSubmissionsCount] = useState(0);
+  const [pending, setPending] = useState(0);
+  const [rejected, setRejected] = useState(0);
+  const [published, setPublished] = useState(0);
+  const [blogSubmissions, setBlogSubmissions] = useState([]);
+
+  useEffect(() => {
+    const callfunc = async () => {
+      const data = await getSubmissions();
+      console.log(data.submissions);
+      setBlogSubmissions(data.submissions);
+    };
+    callfunc();
+  }, []);
 
   useEffect(() => {
     const callCheckAuthAPI = async () => {
@@ -68,25 +85,27 @@ export default function Submissions() {
                 <p className="font-bold text-xs md:text-sm uppercase tracking-widest text-zinc-200">
                   Submissions
                 </p>
-                <p className="text-3xl font-bold text-white">6</p>
+                <p className="text-3xl font-bold text-white">
+                  {submissionsCount}
+                </p>
               </div>
               <div className="h-[50%] w-[47%] md:h-[90%] md:w-[24%] flex flex-col justify-center items-center gap-2 border rounded-lg border-zinc-700 border-[3px] rounded-lg ">
                 <p className="font-bold text-xs md:text-sm uppercase tracking-widest text-yellow-500">
                   Pending
                 </p>
-                <p className="text-3xl font-bold text-white">6</p>
+                <p className="text-3xl font-bold text-white">{pending}</p>
               </div>
               <div className="h-[50%] w-[47%] md:h-[90%] md:w-[24%] flex flex-col justify-center items-center gap-2 border rounded-lg border-zinc-700 border-[3px] rounded-lg ">
                 <p className="font-bold text-xs md:text-sm uppercase tracking-widest text-emerald-400">
                   Published
                 </p>
-                <p className="text-3xl font-bold text-white">6</p>
+                <p className="text-3xl font-bold text-white">{published}</p>
               </div>
               <div className="h-[50%] w-[47%] md:h-[90%] md:w-[24%] flex flex-col justify-center items-center gap-2 border rounded-lg border-zinc-700 border-[3px] rounded-lg ">
                 <p className="font-bold text-xs md:text-sm uppercase tracking-widest text-rose-600">
                   Rejected
                 </p>
-                <p className="text-3xl font-bold text-white">6</p>
+                <p className="text-3xl font-bold text-white">{rejected}</p>
               </div>
             </div>
           </div>
@@ -98,8 +117,18 @@ export default function Submissions() {
           
            flex flex-col gap-5 justify-start pl-3"
           >
-            <AdminSubmissionCard />
-            <AdminSubmissionCard />
+            {blogSubmissions.map((element, index) => (
+              <AdminSubmissionCard
+                key={element.blogId}
+                index={index}
+                title={element.title}
+                authorName={element.authorName}
+                createdAt={new Date(element.createdAt).toLocaleDateString(
+                  "en-GB",
+                )}
+              />
+            ))}
+
           </div>
           <div></div>
         </div>

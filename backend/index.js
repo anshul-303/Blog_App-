@@ -5,6 +5,7 @@ import cors from "cors";
 import authRouter from "./routes/authRoutes.js";
 import authorRouter from "./routes/authorRoutes.js";
 import { verifyJwt } from "./middleware/verifyJwt.js";
+import adminRouter from "./routes/adminRoutes.js";
 
 dotenv.config({ quiet: true });
 const app = express();
@@ -20,6 +21,8 @@ app.use(
 
 app.use("/api/auth", authRouter);
 app.use("/api/author", authorRouter);
+app.use("/api/admin", adminRouter);
+
 
 
 app.get("/api/test", verifyJwt, (req, res) => {

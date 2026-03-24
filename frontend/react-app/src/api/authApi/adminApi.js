@@ -1,38 +1,18 @@
-import toast from "react-hot-toast";
 const URL = import.meta.env.VITE_APP_API_URL;
 
-export async function AddBlogToDB(
-  title,
-  summary,
-  blogBody,
-  headImageURL,
-  action,
-  navigate,
-) {
+export async function getSubmissions() {
   try {
-    if (!title || !summary || !headImageURL || !blogBody || !action) {
-      toast.error("All fields are mandatory!");
-      return;
-    }
-    const res = await fetch(`${URL}/author/`, {
+    const res = await fetch(`${URL}/admin/submissions`, {
       credentials: "include",
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        action: action,
-        blogBody: blogBody,
-        headImageURL: headImageURL,
-        title: title,
-        summary: summary,
-      }),
     });
     if (res.ok) {
       const data = await res.json();
-      console.log(data.message);
-      navigate("/home");
-      return;
+      // console.log(data.message);
+      return data;
     } else if (res.status === 401 || res.status === 403) {
       //Case 1: The refresh token exists but accesstoken expires (response is from verifyJwt)
       //Case 2: The refresh and access token both dont exist(response is from getNewAccessTOken)
@@ -42,14 +22,7 @@ export async function AddBlogToDB(
       });
 
       if (newres.ok) {
-        return AddBlogToDB(
-          title,
-          summary,
-          blogBody,
-          headImageURL,
-          action,
-          navigate,
-        );
+        return getSubmissions();
       } else {
         navigate("/login");
         return;

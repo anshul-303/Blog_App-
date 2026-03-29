@@ -9,7 +9,7 @@ export default function AdminSubmissionCard({
   setBlogSubmissions,
 }) {
   return (
-    <div className="w-[95vw] md:w-[97vw] md:h-[14vh] h-[16vh] border items-center md:items-start rounded-sm flex flex-col md:flex-row gap-2 py-2 px-6 bg-zinc-900">
+    <div className="w-[95vw] md:w-[97vw] md:h-[14vh] h-[16vh] border border-zinc-700 items-center md:items-start rounded-sm flex flex-col md:flex-row gap-2 py-2 px-6 bg-zinc-900">
       <div className="md:w-[80vw] md:h-[11vh] flex flex-col justify-center md:gap-0 gap-1">
         <p className="text-xl font-bold text-zinc-200 text-center md:text-start">
           {title}

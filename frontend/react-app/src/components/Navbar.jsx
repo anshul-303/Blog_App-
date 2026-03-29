@@ -16,21 +16,19 @@ export default function Navbar() {
       <ul className="hidden md:flex gap-6 font-medium text-[1.1em] text-zinc-500">
         {role === "author" && (
           <>
-            <li>
+            <li className="underline">
               <Link to="/home">Home</Link>
             </li>
-            <li className="">
+            <li className="underline">
               <Link to="/dashboard"> Dashboard</Link>
             </li>
-            <li className="pr-2">
+            <li className="underline">
               <Link to="/create-blog">Create</Link>
             </li>
-            <li className="">
-              <Link to="/liked">
-                <span className="text-rose-600">♡ </span> Liked Blogs
-              </Link>
+            <li className="underline">
+              <Link to="/liked">Liked Blogs</Link>
             </li>
-            <li className="">
+            <li className="underline">
               <Link to="/menu">Menu</Link>
             </li>
           </>
@@ -124,7 +122,7 @@ export default function Navbar() {
                 <Link to="/admin/users">Users</Link>
               </li>
               <li className="underline" onClick={() => setOpen(false)}>
-              <Link to="/admin/submissions">Submissions</Link>
+                <Link to="/admin/submissions">Submissions</Link>
               </li>
               <li className="underline" onClick={() => setOpen(false)}>
                 <Link to="/admin/requests">Requests</Link>

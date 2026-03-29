@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { ThumbsUp, FileSpreadsheet, MessageCircle  } from "lucide-react";
+import { FilePen } from "lucide-react";
 import Navbar from "../../components/Navbar.jsx";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -51,9 +53,37 @@ export default function Dashboard() {
   return (
     <div className="text-white bg-zinc-800 overflow-hidden">
       <Navbar />
-      <div className="w-screen md:h-[10vh] h-[7vh] bg-zinc-900 flex justify-between items-center pl-5 pr-5 md:pl-5 md:pr-10 ">
-        <p className="text-2xl font-bold text-white">Author Dashboard</p>
-        <button className="text-zinc-900 font-semibold bg-white border rounded-lg border-[2px] py-2 px-4 md:px-8 hover:bg-zinc-100 active:bg-zinc-300">New Article</button>
+      <div className="w-full md:h-[10vh] h-[7vh] bg-zinc-900 flex justify-between items-center pl-5 pr-5 md:pr-10 ">
+        <p className="text-xl md:text-2xl font-bold text-white">
+          Author Dashboard
+        </p>
+        <button
+          onClick={() => navigate("/create-blog")}
+          className="text-zinc-900 font-semibold bg-white border rounded-lg border-[2px] py-1 md:py-2 px-3 md:px-8 hover:bg-zinc-100 active:bg-zinc-300"
+        >
+          <FilePen className="text-black inline font-bold mr-2" />
+          New Article
+        </button>
+      </div>
+      <div className="w-full md:h-[30vh] h-[20vh] bg-zinc-900 flex justify-center items-center p-1 md:p-3 py-2 gap-3">
+        <div className="w-[32vw] md:h-[28vh] h-[18vh] bg-zinc-800 flex flex-col justify-center items-center gap-1 border border-[3px] rounded-lg border-zinc-800">
+          <FileSpreadsheet className="w-9 h-9 font-bold mb-5 text-zinc-500" />
+          <p className="text-3xl font-bold text-white">19</p>
+
+          <p className="text-1xl font-semibold text-zinc-500">Published</p>
+        </div>
+        <div className="w-[32vw] md:h-[28vh] h-[18vh] bg-zinc-800 flex flex-col justify-center items-center gap-1 border border-[3px] rounded-lg border-zinc-800">
+          <ThumbsUp className="w-9 h-9 font-bold mb-5 text-zinc-500" />
+          <p className="text-3xl font-bold text-white">89</p>
+
+          <p className="text-1xl font-semibold text-zinc-500">Likes</p>
+        </div>
+        <div className="w-[32vw] md:h-[28vh] h-[18vh] bg-zinc-800 flex flex-col justify-center items-center gap-1 border border-[3px] rounded-lg border-zinc-800">
+          <MessageCircle  className="w-9 h-9 font-bold mb-5 text-zinc-500" />
+          <p className="text-3xl font-bold text-white">38</p>
+
+          <p className="text-1xl font-semibold text-zinc-500">Comments</p>
+        </div>
       </div>
       <div className="w-screen h-[100vh] bg-zinc-800"></div>
     </div>

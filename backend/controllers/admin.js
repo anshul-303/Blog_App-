@@ -2,7 +2,7 @@ import pool from "../config/dbconfig.js";
 
 export async function getAllSubmissions(req, res) {
   try {
-    console.log("The submissions have been fetched!");
+    // console.log("The submissions have been fetched!");
     const [rows] = await pool.query(`
         SELECT 
         CONCAT(u.firstName, ' ', u.lastName) AS authorName, 
@@ -14,7 +14,6 @@ export async function getAllSubmissions(req, res) {
         WHERE b.status = 'submitted' 
         ORDER BY b.createdAt DESC;
       `);
-      console.log(rows)
     return res.status(200).json({
       message: "All the submissions have been sent successfully!",
       submissions: rows,
@@ -35,6 +34,28 @@ export async function updateBlogStatus(req, res) {
     console.log("No. of rows affected : ", result.affectedRows);
     return res.status(200).json({
       message: "Status of the blog has been updated successfully!",
+    });
+  } catch (error) {
+    console.log("Error detected! : ", error);
+    return res.status(500).json({ message: "Internal server error!" });
+  }
+}
+
+export async function getAdminSummary(req, res) {
+  try {
+    console.log("Fetching admin summary...");
+    const [rows] = await pool.query(`
+      SELECT 
+        COUNT(blogId) AS submissions,
+        COALESCE(SUM(CASE WHEN status = 'submitted' THEN 1 ELSE 0 END), 0) AS pending,
+        COALESCE(SUM(CASE WHEN status = 'published' THEN 1 ELSE 0 END), 0) AS published,
+        COALESCE(SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END), 0) AS rejected
+      FROM blogs;
+    `);
+    console.log(rows);
+    return res.status(200).json({
+      message: "Admin summary fetched successfully!",
+      ...rows[0],
     });
   } catch (error) {
     console.log("Error detected! : ", error);

@@ -49,10 +49,9 @@ export async function updateBlogStatus(blogId, status, setBlogSubmissions) {
     if (res.ok) {
       const data = await res.json();
       //Here we fetch the new updated data to find the updated set of blogs after approving/rejecting some blog
-       const blogSubmissions = await getSubmissions();
+      const blogSubmissions = await getSubmissions();
       // console.log(data.submissions);
       setBlogSubmissions(blogSubmissions.submissions);
-
     } else if (res.status === 401 || res.status === 403) {
       //Case 1: The refresh token exists but accesstoken expires (response is from verifyJwt)
       //Case 2: The refresh and access token both dont exist(response is from getNewAccessTOken)
@@ -63,6 +62,39 @@ export async function updateBlogStatus(blogId, status, setBlogSubmissions) {
 
       if (newres.ok) {
         return updateBlogStatus(blogId, status, setBlogSubmissions);
+      } else {
+        navigate("/login");
+        return;
+      }
+    }
+  } catch (error) {
+    console.log("Error detected : ", error);
+  }
+}
+
+export async function getAdminSummary() {
+  try {
+    const res = await fetch(`${URL}/admin/submissions/summary`, {
+      credentials: "include",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.ok) {
+      const data = await res.json();
+      console.log(data.message);
+      return await data;
+    } else if (res.status === 401 || res.status === 403) {
+      //Case 1: The refresh token exists but accesstoken expires (response is from verifyJwt)
+      //Case 2: The refresh and access token both dont exist(response is from getNewAccessTOken)
+      const newres = await fetch(`${URL}/auth/refresh`, {
+        credentials: "include",
+        method: "GET",
+      });
+
+      if (newres.ok) {
+        return getAdminSummary();
       } else {
         navigate("/login");
         return;

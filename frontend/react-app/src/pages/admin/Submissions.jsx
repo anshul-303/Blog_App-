@@ -140,7 +140,7 @@ export default function Submissions() {
 
           {blogSubmissions.length === 0 && (
             <>
-              <div className="w-[100vw] min-h-[50vh] flex flex-col gap-5 justify-center items-center ">
+              <div className="w-[95vw] md:w-[97vw] ml-3 h-[59vh] md:min-h-[50vh] flex flex-col gap-5 justify-center items-center border border-zinc-700 rounded-sm border-[3px]">
                 <p className="text-3xl font-semi-bold text-white">
                   No pending blogs!
                 </p>

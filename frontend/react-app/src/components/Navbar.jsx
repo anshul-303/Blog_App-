@@ -1,16 +1,26 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRole } from "../contexts/roleContexts.jsx";
+import { BookOpen } from "lucide-react";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { role, setRole } = useRole();
+  const navigate = useNavigate();
 
   return (
     // <nav className="fixed w-full bg-black text-white px-6 py-4 flex items-center justify-between">
     // <nav className="sticky top-0 z-50 w-full bg-black text-white px-6 py-4 flex items-center justify-between">
     <nav className=" w-full bg-black text-white px-6 py-4 flex items-center justify-between">
       {/* Logo */}
-      <div className="text-xl font-bold">BlogIT</div>
+      <div
+        className="text-xl font-bold"
+        onClick={() => {
+          navigate("/home");
+        }}
+      >
+        Chronicle{" "}
+        <BookOpen className="inline w-7 h-7 font-bold pb-0.5 text-size-xl" />
+      </div>
 
       {/* Desktop Nav */}
       <ul className="hidden md:flex gap-6 font-medium text-[1.1em] text-zinc-500">

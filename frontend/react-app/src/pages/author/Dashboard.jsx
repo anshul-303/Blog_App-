@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ThumbsUp, FileSpreadsheet, MessageCircle  } from "lucide-react";
+import { ThumbsUp, FileSpreadsheet, MessageCircle } from "lucide-react";
 import { FilePen } from "lucide-react";
 import Navbar from "../../components/Navbar.jsx";
 import { useEffect, useState } from "react";
@@ -65,21 +65,21 @@ export default function Dashboard() {
           New Article
         </button>
       </div>
-      <div className="w-full md:h-[30vh] h-[20vh] bg-zinc-900 flex justify-center items-center p-1 md:p-3 py-2 gap-3">
-        <div className="w-[32vw] md:h-[28vh] h-[18vh] bg-zinc-800 flex flex-col justify-center items-center gap-1 border border-[3px] rounded-lg border-zinc-800">
+      <div className="w-full md:min-h-[25vh] min-h-[20vh] bg-zinc-900 flex justify-center items-center p-1 md:px-3 md:py-2 gap-3">
+        <div className="w-[32vw] md:h-[23vh] h-[18vh] bg-zinc-800 flex flex-col justify-center items-center gap-1 border border-[3px] rounded-lg border-zinc-800">
           <FileSpreadsheet className="w-9 h-9 font-bold mb-5 text-zinc-500" />
           <p className="text-3xl font-bold text-white">19</p>
 
           <p className="text-1xl font-semibold text-zinc-500">Published</p>
         </div>
-        <div className="w-[32vw] md:h-[28vh] h-[18vh] bg-zinc-800 flex flex-col justify-center items-center gap-1 border border-[3px] rounded-lg border-zinc-800">
+        <div className="w-[32vw] md:h-[23vh] h-[18vh] bg-zinc-800 flex flex-col justify-center items-center gap-1 border border-[3px] rounded-lg border-zinc-800">
           <ThumbsUp className="w-9 h-9 font-bold mb-5 text-zinc-500" />
           <p className="text-3xl font-bold text-white">89</p>
 
           <p className="text-1xl font-semibold text-zinc-500">Likes</p>
         </div>
-        <div className="w-[32vw] md:h-[28vh] h-[18vh] bg-zinc-800 flex flex-col justify-center items-center gap-1 border border-[3px] rounded-lg border-zinc-800">
-          <MessageCircle  className="w-9 h-9 font-bold mb-5 text-zinc-500" />
+        <div className="w-[32vw] md:h-[23vh] h-[18vh] bg-zinc-800 flex flex-col justify-center items-center gap-1 border border-[3px] rounded-lg border-zinc-800">
+          <MessageCircle className="w-9 h-9 font-bold mb-5 text-zinc-500" />
           <p className="text-3xl font-bold text-white">38</p>
 
           <p className="text-1xl font-semibold text-zinc-500">Comments</p>

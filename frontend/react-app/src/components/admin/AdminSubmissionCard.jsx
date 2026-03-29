@@ -1,8 +1,12 @@
+import { updateBlogStatus } from "../../api/authApi/adminApi";
+
 export default function AdminSubmissionCard({
   title,
   index,
   authorName,
   createdAt,
+  blogId,
+  setBlogSubmissions,
 }) {
   return (
     <div className="w-[95vw] md:w-[97vw] md:h-[14vh] h-[16vh] border items-center md:items-start rounded-sm flex flex-col md:flex-row gap-2 py-2 px-6 bg-zinc-900">
@@ -17,6 +21,9 @@ export default function AdminSubmissionCard({
       </div>
       <div className="w-[80vw] h-[20vh] md:w-[15vw] md:h-[11vh] flex md:justify-end justify-center items-center gap-2 ">
         <button
+          onClick={() => {
+            updateBlogStatus(blogId, "published", setBlogSubmissions);
+          }}
           className=" w-[30vw] h-[10vw] md:w-[8vh] md:h-[8vh] border rounded-lg bg-emerald-400 text-emerald-700 flex justify-center items-center 
                 transition-all duration-200 ease-in-out
                 hover:bg-emerald-500 hover:scale-105 hover:shadow-md
@@ -25,6 +32,9 @@ export default function AdminSubmissionCard({
           ✓
         </button>
         <button
+          onClick={() => {
+            updateBlogStatus(blogId, "rejected", setBlogSubmissions);
+          }}
           className="w-[30vw] h-[10vw] md:w-[8vh] md:h-[8vh] border rounded-lg bg-rose-400 text-rose-700 flex justify-center items-center 
                 transition-all duration-200 ease-in-out
                 hover:bg-rose-500 hover:scale-105 hover:shadow-md

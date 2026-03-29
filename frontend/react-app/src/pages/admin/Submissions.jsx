@@ -24,7 +24,7 @@ export default function Submissions() {
   useEffect(() => {
     const callfunc = async () => {
       const data = await getSubmissions();
-      console.log(data.submissions);
+      // console.log(data.submissions);
       setBlogSubmissions(data.submissions);
     };
     callfunc();
@@ -120,9 +120,11 @@ export default function Submissions() {
             {blogSubmissions.map((element, index) => (
               <AdminSubmissionCard
                 key={element.blogId}
+                blogId={element.blogId}
                 index={index}
                 title={element.title}
                 authorName={element.authorName}
+                setBlogSubmissions={setBlogSubmissions}
                 createdAt={new Date(element.createdAt).toLocaleDateString(
                   "en-GB",
                 )}

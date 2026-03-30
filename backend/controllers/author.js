@@ -38,14 +38,13 @@ export async function AddBlogToDB(req, res) {
 
 export async function getDrafts(req, res) {
   try {
-    console.log("Fetching drafts...");
+    // console.log("Fetching drafts...");
     const [rows] = await pool.query(
       `
         SELECT blogId, title, summary FROM blogs WHERE authorId = ? AND status = 'draft';
       `,
       [req.userId],
     );
-    console.log(rows);
     if (rows.length === 0) {
       return res.status(201).json({
         message: `The drafts have been fetched successfully!`,

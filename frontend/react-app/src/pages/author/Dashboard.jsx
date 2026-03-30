@@ -1,5 +1,11 @@
 import { Link } from "react-router-dom";
-import { ThumbsUp, FileSpreadsheet, MessageCircle } from "lucide-react";
+import {
+  ThumbsUp,
+  FileSpreadsheet,
+  MessageCircle,
+  User,
+  Calendar,
+} from "lucide-react";
 import { FilePen } from "lucide-react";
 import Navbar from "../../components/Navbar.jsx";
 import { useEffect, useState } from "react";
@@ -7,6 +13,9 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext.jsx";
 import { checkAuth } from "../../api/authApi/authApi.js";
 import { useRole } from "../../contexts/roleContexts.jsx";
+import AuthorDraftCard from "../../components/author/AuthorDraftCard.jsx";
+import AuthorPublishedCard from "../../components/author/AuthorPublishedCard.jsx";
+import AuthorSubmissionCard from "../../components/author/AuthorSubmissionCard.jsx";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -65,7 +74,7 @@ export default function Dashboard() {
           New Article
         </button>
       </div>
-      <div className="w-full md:min-h-[25vh] min-h-[20vh] bg-zinc-900 flex justify-center items-center p-1 md:px-3 md:py-2 gap-3">
+      <div className="w-full md:min-h-[25vh] min-h-[20vh] bg-zinc-900 flex justify-center items-center py-1 px-2 md:px-3 md:py-2 gap-3">
         <div className="w-[32vw] md:h-[23vh] h-[18vh] bg-zinc-800 flex flex-col justify-center items-center gap-1 border border-[3px] rounded-lg border-zinc-800">
           <FileSpreadsheet className="w-9 h-9 font-bold mb-5 text-zinc-500" />
           <p className="text-3xl font-bold text-white">19</p>
@@ -85,7 +94,34 @@ export default function Dashboard() {
           <p className="text-1xl font-semibold text-zinc-500">Comments</p>
         </div>
       </div>
-      <div className="w-screen h-[100vh] bg-zinc-800"></div>
+      <div className="w-full md:min-h-[25vh] min-h-[20vh] bg-zinc-900 flex flex-col justify-start items-start py-1 px-2 md:px-3 md:py-2 gap-2  ">
+        <p className="py-2 text-zinc-700 uppercase font-semibold text-md pl-2 md:pl-1">
+          D r a f t s
+        </p>
+        <AuthorDraftCard />
+      </div>
+
+      <div className="w-full pt-3 md:min-h-[40vh] min-h-[45vh] bg-zinc-900 flex flex-col justify-start items-start px-4 px-5 gap-2 ">
+        <p className="py-2 text-zinc-700 uppercase font-semibold text-md pl-2 md:pl-2">
+          A L L &nbsp; A R T I C L E S
+        </p>
+        <div className="flex gap-3 flex-wrap justify-start">
+          <AuthorPublishedCard />
+          <AuthorPublishedCard />
+        </div>
+      </div>
+
+      <div className="w-full md:min-h-[45vh] min-h-[45vh] bg-zinc-900 flex flex-col justify-start items-start px-5 gap-2 pb-4">
+        <p className="pb-2 text-zinc-700 uppercase font-semibold text-md pl-2 md:pl-2">
+          S U B M I S S I O N S
+        </p>
+        <div className="flex gap-3 flex-wrap justify-start">
+          <AuthorSubmissionCard />
+          <AuthorSubmissionCard />
+        </div>
+      </div>
+
+      {/* <div className="w-screen h-[100vh] bg-zinc-800"></div> */}
     </div>
   );
 }

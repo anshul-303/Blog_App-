@@ -16,12 +16,22 @@ import { useRole } from "../../contexts/roleContexts.jsx";
 import AuthorDraftCard from "../../components/author/AuthorDraftCard.jsx";
 import AuthorPublishedCard from "../../components/author/AuthorPublishedCard.jsx";
 import AuthorSubmissionCard from "../../components/author/AuthorSubmissionCard.jsx";
+import { getDrafts } from "../../api/authApi/authorApi.js";
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const { isAuthenticated, setIsAuthenticated } = useAuth();
   const { role, setRole } = useRole();
   const url = import.meta.env.VITE_APP_API_URL;
+
+  //UseStates
+  const [submissionCount, setSubmissionCount] = useState(null);
+  const [likesCount, setLikesCount] = useState(null);
+  const [commentsCount, setCommentsCount] = useState(null);
+
+  const [draftsList, setDraftsList] = useState([]);
+  const [articlesList, setArticlesList] = useState([]);
+  const [submissionsList, setSubmissionsList] = useState([]);
 
   useEffect(() => {
     const callCheckAuthAPI = async () => {
@@ -58,6 +68,14 @@ export default function Dashboard() {
 
     fetchtrial();
   }, [isAuthenticated, role, navigate]);
+
+  useEffect(() => {
+    const callApi = async () => {
+      const data = await getDrafts();
+      setDraftsList(data.drafts);
+    };
+    callApi();
+  }, []);
 
   return (
     <div className="text-white bg-zinc-800 overflow-hidden">
@@ -98,7 +116,25 @@ export default function Dashboard() {
         <p className="py-2 text-zinc-700 uppercase font-semibold text-md pl-2 md:pl-1">
           D r a f t s
         </p>
-        <AuthorDraftCard />
+        {draftsList.length === 0 && (
+            <>
+              <div className="w-[95vw] md:w-[97vw] h-[8vh] md:min-h-[10vh] flex flex-col gap-5 justify-center items-center border border-zinc-700 rounded-sm border-[3px]">
+                <p className="text-3xl font-semi-bold text-white">
+                  No drafts!
+                </p>
+              </div>
+            </>
+          )}
+        {
+          draftsList.map((element) => (
+            <AuthorDraftCard
+              key={element.blogId}
+              blogId={element.blogId}
+              title={element.title}
+              summary={element.summary}
+            />
+          ))}
+        {/* <AuthorDraftCard /> */}
       </div>
 
       <div className="w-full pt-3 md:min-h-[40vh] min-h-[45vh] bg-zinc-900 flex flex-col justify-start items-start px-4 px-5 gap-2 ">

@@ -29,7 +29,33 @@ export async function AddBlogToDB(req, res) {
 
     return res
       .status(201)
-      .json({ message: `Blog added created successfully ` });
+      .json({ message: `Blog added created successfully!` });
+  } catch (error) {
+    console.log("Error detected! : ", error);
+    return res.status(500).json({ message: "Internal server error!" });
+  }
+}
+
+export async function getDrafts(req, res) {
+  try {
+    console.log("Fetching drafts...");
+    const [rows] = await pool.query(
+      `
+        SELECT blogId, title, summary FROM blogs WHERE authorId = ? AND status = 'draft';
+      `,
+      [req.userId],
+    );
+    console.log(rows);
+    if (rows.length === 0) {
+      return res.status(201).json({
+        message: `The drafts have been fetched successfully!`,
+        drafts: [],
+      });
+    }
+    return res.status(201).json({
+      message: `The drafts have been fetched successfully!`,
+      drafts: rows,
+    });
   } catch (error) {
     console.log("Error detected! : ", error);
     return res.status(500).json({ message: "Internal server error!" });

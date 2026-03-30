@@ -1,12 +1,12 @@
-export default function AuthorDraftCard() {
+export default function AuthorDraftCard({ title, summary }) {
   return (
-    <div className="md:min-h-[13vh] min-h-[10vh] md:w-[97vw] w-[95vw] border rounded-lg border-[2px] border-zinc-700 bg-zinc-800 py-2 flex flex-col md:flex-row justify-between items-center px-4 md:gap-0">
-      <div className="w-[90vw] md:w-[70vw] md:h-[11vh] flex flex-col justify-center md:gap-1 gap-1  px-2 md:px-0">
+    <div className="md:min-h-[13vh] min-h-[10vh] md:w-[97vw] w-[95vw] border rounded-lg border-[2px] border-zinc-700 bg-zinc-800 py-2 flex flex-col md:flex-row justify-between items-center px-4 md:gap-0 gap-2">
+      <div className="w-[90vw] md:w-[70vw] md:h-[11vh] flex flex-col justify-center md:gap-1 gap-2  px-2 md:px-0">
         <p className="text-xl font-semibold text-zinc-200 text-center md:text-start">
-          This is the title
+          {title}
         </p>
-        <p className="md:text-[1em] text-sm text-zinc-600 flex gap-1 font-medium justify-center md:justify-start">
-          This is the summary
+        <p className="md:text-[1em] text-sm text-zinc-500 flex gap-1 font-medium justify-center md:justify-start md:text-start text-center">
+          {summary}
         </p>
       </div>
 

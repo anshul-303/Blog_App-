@@ -72,7 +72,7 @@ export default function Dashboard() {
   useEffect(() => {
     const callApi = async () => {
       const data = await getDrafts();
-      setDraftsList(data.drafts);
+      setDraftsList(data.drafts)
     };
     callApi();
   }, []);

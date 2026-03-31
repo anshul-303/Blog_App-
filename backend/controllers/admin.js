@@ -31,7 +31,7 @@ export async function updateBlogStatus(req, res) {
       `UPDATE blogs SET status=? WHERE blogId=?;`,
       [status, blogId],
     );
-    console.log("No. of rows affected : ", result.affectedRows);
+    // console.log("No. of rows affected : ", result.affectedRows);
     return res.status(200).json({
       message: "Status of the blog has been updated successfully!",
     });
@@ -52,7 +52,7 @@ export async function getAdminSummary(req, res) {
         COALESCE(SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END), 0) AS rejected
       FROM blogs;
     `);
-    console.log(rows);
+    // console.log(rows);
     return res.status(200).json({
       message: "Admin summary fetched successfully!",
       ...rows[0],

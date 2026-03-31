@@ -1,12 +1,59 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar.jsx";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/authContext.jsx";
+import { checkAuth } from "../api/authApi/authApi.js";
+import { useRole } from "../contexts/roleContexts.jsx";
 import { Sparkles } from "lucide-react";
+import AuthorArticleCard from "../components/author/AuthorArticleCard.jsx";
 
 export default function Home() {
+  const navigate = useNavigate();
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
+  const { role, setRole } = useRole();
+  const url = import.meta.env.VITE_APP_API_URL;
+
+  useEffect(() => {
+    const callCheckAuthAPI = async () => {
+      await checkAuth(navigate, setIsAuthenticated, setRole);
+    };
+    if (!isAuthenticated) {
+      callCheckAuthAPI();
+    }
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    // Guard: Role-based access
+    if (role !== "author" && role !== "viewer" && role) {
+      navigate("/403");
+      return;
+    }
+    const fetchtrial = async () => {
+      const res = await fetch(`${url}/test`, {
+        credentials: "include",
+      });
+      if (res.status === 403 || res.status === 401) {
+        const newres = await fetch(`${url}/auth/refresh`, {
+          credentials: "include",
+        });
+        if (newres.ok) {
+          fetchtrial();
+        } else {
+          throw Error("The access token is not there.");
+        }
+      }
+    };
+
+    fetchtrial();
+  }, [isAuthenticated, role, navigate]);
+
   return (
     <div className="text-white bg-zinc-800 overflow-hidden">
       <Navbar />
-      <div className="w-full md:h-[60vh] h-[50vh] bg-zinc-900 justify-center items-start flex flex-col px-6 gap-5">
+      <div className="border-y border-y-zinc-700 w-full md:h-[60vh] h-[50vh] bg-zinc-900 justify-center items-start flex flex-col px-6 gap-5">
         <p className="text-2xl md:text-xl text-zinc-600 font-bold">
           <Sparkles className="w-5 h-5 inline pb-1" /> Platform for ideas
         </p>
@@ -23,7 +70,26 @@ export default function Home() {
           systems, and the craft of building exceptional products.
         </p>
       </div>
-      <div className="w-full h-[100vh] flex justify-center items-center "></div>
+      <div className="w-full md:min-h-[70vh] min-h-[70vh] bg-zinc-900 flex flex-col justify-start items-start pt-1 px-4 md:px-3 md:pt-3 pb-4 gap-4  ">
+        <p className="py-2 text-zinc-700 uppercase font-semibold text-md pl-2 md:pl-1">
+          L a t e s t &nbsp;a r t i c l e s
+        </p>
+        <div className="w-full flex flex-wrap md:flex-row flex-col justify-around items-start gap-3 ">
+          <AuthorArticleCard />
+          <AuthorArticleCard />
+          <AuthorArticleCard />
+          <AuthorArticleCard />
+          <AuthorArticleCard />
+          <AuthorArticleCard />
+          <AuthorArticleCard />
+          <AuthorArticleCard />
+          <AuthorArticleCard />
+        </div>
+      </div>
+      <footer className="border-t border-t-zinc-700 w-full h-[8vh] justify-center flex items-center font-bold text-lg text-zinc-700 bg-zinc-900">
+        ©Anshul Patil • All rights reserved, 2026
+      </footer>
+      {/* <div className="w-full h-[100vh] flex justify-center items-center "></div> */}
     </div>
   );
 }

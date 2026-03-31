@@ -16,7 +16,7 @@ import { useRole } from "../../contexts/roleContexts.jsx";
 import AuthorDraftCard from "../../components/author/AuthorDraftCard.jsx";
 import AuthorPublishedCard from "../../components/author/AuthorPublishedCard.jsx";
 import AuthorSubmissionCard from "../../components/author/AuthorSubmissionCard.jsx";
-import { getDrafts } from "../../api/authApi/authorApi.js";
+import { getDrafts, getSubmitted } from "../../api/authApi/authorApi.js";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -72,7 +72,15 @@ export default function Dashboard() {
   useEffect(() => {
     const callApi = async () => {
       const data = await getDrafts();
-      setDraftsList(data.drafts)
+      setDraftsList(data.drafts);
+    };
+    callApi();
+  }, []);
+
+  useEffect(() => {
+    const callApi = async () => {
+      const data = await getSubmitted();
+      setSubmissionsList(data.submitted);
     };
     callApi();
   }, []);
@@ -117,23 +125,20 @@ export default function Dashboard() {
           D r a f t s
         </p>
         {draftsList.length === 0 && (
-            <>
-              <div className="w-[95vw] md:w-[97vw] h-[8vh] md:min-h-[10vh] flex flex-col gap-5 justify-center items-center border border-zinc-700 rounded-sm border-[3px]">
-                <p className="text-3xl font-semi-bold text-white">
-                  No drafts!
-                </p>
-              </div>
-            </>
-          )}
-        {
-          draftsList.map((element) => (
-            <AuthorDraftCard
-              key={element.blogId}
-              blogId={element.blogId}
-              title={element.title}
-              summary={element.summary}
-            />
-          ))}
+          <>
+            <div className="w-[95vw] md:w-[97vw] h-[8vh] md:min-h-[10vh] flex flex-col gap-5 justify-center items-center border border-zinc-700 rounded-sm border-[3px]">
+              <p className="text-3xl font-semi-bold text-zinc-400">No drafts!</p>
+            </div>
+          </>
+        )}
+        {draftsList.map((element) => (
+          <AuthorDraftCard
+            key={element.blogId}
+            blogId={element.blogId}
+            title={element.title}
+            summary={element.summary}
+          />
+        ))}
         {/* <AuthorDraftCard /> */}
       </div>
 
@@ -151,9 +156,25 @@ export default function Dashboard() {
         <p className="pb-2 text-zinc-700 uppercase font-semibold text-md pl-2 md:pl-2">
           S U B M I S S I O N S
         </p>
+        {submissionsList.length === 0 && (
+          <>
+            <div className="w-[95vw] md:w-[97vw] h-[8vh] md:min-h-[10vh] flex flex-col gap-5 justify-center items-center border border-zinc-700 rounded-sm border-[3px]">
+              <p className="text-3xl font-semi-bold text-zinc-400">No submissions yet!</p>
+            </div>
+          </>
+        )}
         <div className="flex gap-3 flex-wrap justify-start">
-          <AuthorSubmissionCard />
-          <AuthorSubmissionCard />
+          {submissionsList.map((element) => (
+            <AuthorSubmissionCard
+              key={element.blogId}
+              blogId={element.blogId}
+              title={element.title}
+              summary={element.summary}
+              createdAt={new Date(element.createdAt).toLocaleDateString(
+                "en-GB",
+              )}
+            />
+          ))}
         </div>
       </div>
 

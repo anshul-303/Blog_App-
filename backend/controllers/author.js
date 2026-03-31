@@ -47,13 +47,39 @@ export async function getDrafts(req, res) {
     );
     if (rows.length === 0) {
       return res.status(201).json({
-        message: `The drafts have been fetched successfully!`,
+        message: `There are currently no drafts available!`,
         drafts: [],
       });
     }
     return res.status(201).json({
       message: `The drafts have been fetched successfully!`,
       drafts: rows,
+    });
+  } catch (error) {
+    console.log("Error detected! : ", error);
+    return res.status(500).json({ message: "Internal server error!" });
+  }
+}
+
+export async function getSubmitted(req, res) {
+  try {
+    console.log("Fetching submitted articles...");
+    const [rows] = await pool.query(
+      `
+        SELECT blogId, title, summary, createdAt FROM blogs WHERE authorId = ? AND status = 'submitted';
+      `,
+      [req.userId],
+    );
+    if (rows.length === 0) {
+      return res.status(201).json({
+        message: `There are currently no submitted blogs!`,
+        submitted: [],
+      });
+    }
+    console.log(rows)
+    return res.status(201).json({
+      message: `The drafts have been fetched successfully!`,
+      submitted: rows,
     });
   } catch (error) {
     console.log("Error detected! : ", error);

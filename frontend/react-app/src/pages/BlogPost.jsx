@@ -7,7 +7,7 @@ import { checkAuth } from "../api/authApi/authApi";
 import { useRole } from "../contexts/roleContexts.jsx";
 import { ArrowLeft, ThumbsUp, ThumbsDown, Send } from "lucide-react";
 import BlogComment from "../components/viewer/BlogComment.jsx";
-import { getBlogbyId } from "../api/authApi/viewerApi.js";
+import { getBlogbyId, getCommentsById } from "../api/authApi/viewerApi.js";
 
 export default function BlogPost() {
   const navigate = useNavigate();
@@ -15,6 +15,10 @@ export default function BlogPost() {
   const { role, setRole } = useRole();
   const url = import.meta.env.VITE_APP_API_URL;
   const { id } = useParams();
+
+  //useStates for this blo post page.
+  const [blogData, setBlogData] = useState([]);
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     const callCheckAuthAPI = async () => {
@@ -53,10 +57,20 @@ export default function BlogPost() {
   }, [isAuthenticated, role, navigate]);
 
   useEffect(() => {
-    const getBlog = async  () => {
-      await getBlogbyId(id);
+    const getBlog = async () => {
+      const data = await getBlogbyId(id);
+      //   console.log(data.blogData);
+      setBlogData(data.blogData);
     };
     getBlog();
+  }, []);
+
+  useEffect(() => {
+    const getBlogComments = async () => {
+      const data = await getCommentsById(id);
+      setComments(data.rows);
+    };
+    getBlogComments();
   }, []);
 
   return (
@@ -77,64 +91,31 @@ export default function BlogPost() {
         <div className="w-[97.5%] min-h-[50vh] flex flex-col  justify-top py-5 items-center text-white">
           <div className="flex  flex-col justify-top w-[80%] md:w-[60%]  gap-3">
             <p className="font-bold text-[2.5rem] text-white">
-              How RTX-6090 will change the world of fast computing.
+              {blogData.length !== 0 && blogData[0].title}
             </p>
             <p className="font-semi text-[1.3rem] text-zinc-500">
-              A brief overview of how microprocessors and graphic cards play
-              important role in AI powering.
+              {blogData.length !== 0 && blogData[0].summary}
             </p>
             <img
-              src={"/image_placeholder.jpg"}
+              src={
+                (blogData.length !== 0 && blogData[0].headImageUrl) ||
+                "/image_placeholder.jpg"
+              }
               alt="Head preview"
-              className="w-[80%] h-[60%] object-cover transition-transform duration-300 hover:scale-[1.02] rounded-sm py-6"
+              className="w-[80%] h-[60%] object-cover transition-transform duration-300 hover:scale-[1.02]  py-6 "
             />
             <div className="flex gap-5">
               <p className="font-semi text-[1.1rem] text-zinc-500">
-                👤 Rohit D'Souza
+                👤 {blogData.length !== 0 && blogData[0].author}
               </p>
               <p className="font-semi text-[1.1rem] text-zinc-500 ">
-                📅 10 June,2026
+                📅{" "}
+                {blogData.length !== 0 &&
+                  new Date(blogData[0].createdAt).toLocaleDateString("en-GB")}
               </p>
             </div>
             <div className="font text-[1.1rem] text-white whitespace-pre-line pb-6">
-              The release of the NVIDIA RTX 6090 marks a turning point in how
-              developers approach artificial intelligence. What once required
-              expensive cloud infrastructure can now be done locally with
-              unprecedented speed and efficiency. For years, training machine
-              learning models was limited by hardware constraints.
-              <br />
-              <br />
-              Developers had to rely heavily on cloud platforms, often dealing
-              with latency, high costs, and limited control. With the RTX 6090,
-              that barrier is starting to disappear. One of the biggest
-              advantages of this GPU is its ability to handle large-scale AI
-              workloads. Whether you're working with large language models,
-              computer vision systems, or real-time inference engines, the
-              performance gains are significant. Tasks that previously took
-              hours can now be completed in minutes. Another major shift is in
-              accessibility.
-              <br />
-              <br />
-              Students and independent developers can now experiment with
-              advanced AI models without needing enterprise-level resources.
-              This democratization of AI could lead to a surge in innovation, as
-              more people are able to build and test ideas locally. However,
-              it’s not all perfect. High-end GPUs like the RTX 6090 are still
-              expensive, and optimizing code to fully utilize such hardware
-              requires a deep understanding of parallel computing and memory
-              management.
-              <br />
-              <br />
-              Simply having powerful hardware is not enough—you need to know how
-              to use it effectively. From a development perspective, frameworks
-              like PyTorch and TensorFlow are already evolving to take full
-              advantage of next-generation GPUs. Features like mixed precision
-              training and hardware acceleration are becoming standard. Looking
-              ahead, the combination of powerful GPUs and smarter AI frameworks
-              will redefine what individual developers can achieve. We are
-              moving toward a future where building advanced AI systems is not
-              limited to big tech companies but is accessible to anyone with the
-              right skills and tools.
+              {blogData.length !== 0 && blogData[0].body}
             </div>
             <div className="w-full py-3 border-y border-y-zinc-800 flex items-center text-md font-bold text-zinc-600 gap-7">
               <p className="flex justify-center items-center px-6 py-2 border-zinc-700 rounded-lg bg-zinc-800 hover:text-white transition duration-400 ">
@@ -160,9 +141,17 @@ export default function BlogPost() {
               </button>
             </div>
             <div className="w-full py-4 flex flex-col justify-center items-center">
-              <BlogComment />
-              <BlogComment />
-              <BlogComment />
+              {comments.map((element, index) => (
+                <BlogComment
+                  key={element.commentId}
+                  index={index}
+                  commentBody={element.comment}
+                  commentAuthor={element.commentAuthor}
+                  commentDate={new Date(
+                    element.commentDate,
+                  ).toLocaleDateString("en-GB")}
+                />
+              ))}
             </div>
           </div>
         </div>

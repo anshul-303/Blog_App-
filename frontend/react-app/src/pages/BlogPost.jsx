@@ -6,6 +6,7 @@ import { useAuth } from "../contexts/authContext";
 import { checkAuth } from "../api/authApi/authApi";
 import { useRole } from "../contexts/roleContexts.jsx";
 import { ArrowLeft, ThumbsUp, ThumbsDown, Send } from "lucide-react";
+import BlogComment from "../components/viewer/BlogComment.jsx";
 
 export default function BlogPost() {
   const navigate = useNavigate();
@@ -151,59 +152,10 @@ export default function BlogPost() {
               </button>
             </div>
             <div className="w-full py-4 flex flex-col justify-center items-center">
-              <div className="w-full p-2 flex gap-4 ">
-                <p className="w-10 flex justify-center items-center h-10 border rounded-full bg-zinc-800 ">
-                  JM
-                </p>
-                <div className="flex justify-center items-start flex-col gap-0.5 ">
-                  <p className="font-bold text-sm text-zinc-200">
-                    Jeremy Wilson{" "}
-                    <span className="text-sm  text-zinc-600 ml-2">
-                      19/10/2020
-                    </span>
-                  </p>
-                  <p className="text-zinc-300">
-                    One of most insightful blogs in recent times which I have
-                    read! border border-zinc-800
-                  </p>
-                </div>
-              </div>
+              <BlogComment />
+              <BlogComment />
 
-              <div className="w-full  p-2 flex gap-4 ">
-                <p className="w-10 flex justify-center items-center h-10  border rounded-full bg-zinc-800 ">
-                  JM
-                </p>
-                <div className="flex justify-center items-start flex-col gap-0.5 ">
-                  <p className="font-bold text-sm text-zinc-200">
-                    Jeremy Wilson{" "}
-                    <span className="text-sm  text-zinc-600 ml-2">
-                      19/10/2020
-                    </span>
-                  </p>
-                  <p className="text-zinc-300">
-                    One of most insightful blogs in recent times which I have
-                    border border-zinc-800 border border-zinc-800 read!
-                  </p>
-                </div>
-              </div>
-
-              <div className="w-full  p-2 flex gap-4 ">
-                <p className="w-10 flex justify-center items-center h-10  border rounded-full bg-zinc-800 ">
-                  JM
-                </p>
-                <div className="flex justify-center items-start flex-col gap-0.5 ">
-                  <p className="font-bold text-sm text-zinc-200">
-                    Jeremy Wilson{" "}
-                    <span className="text-sm  text-zinc-600 ml-2">
-                      19/10/2020
-                    </span>
-                  </p>
-                  <p className="text-zinc-300">
-                    One of most insightful blogs in recent times which I have
-                    read!
-                  </p>
-                </div>
-              </div>
+              <BlogComment />
             </div>
           </div>
         </div>

@@ -6,6 +6,7 @@ import authRouter from "./routes/authRoutes.js";
 import authorRouter from "./routes/authorRoutes.js";
 import { verifyJwt } from "./middleware/verifyJwt.js";
 import adminRouter from "./routes/adminRoutes.js";
+import viewerRouter from "./routes/viewerRoutes.js";
 
 dotenv.config({ quiet: true });
 const app = express();
@@ -22,6 +23,8 @@ app.use(
 app.use("/api/auth", authRouter);
 app.use("/api/author", authorRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/viewer", viewerRouter);
+
 
 
 

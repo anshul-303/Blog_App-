@@ -7,6 +7,7 @@ import { checkAuth } from "../api/authApi/authApi";
 import { useRole } from "../contexts/roleContexts.jsx";
 import { ArrowLeft, ThumbsUp, ThumbsDown, Send } from "lucide-react";
 import BlogComment from "../components/viewer/BlogComment.jsx";
+import { getBlogbyId } from "../api/authApi/viewerApi.js";
 
 export default function BlogPost() {
   const navigate = useNavigate();
@@ -50,6 +51,13 @@ export default function BlogPost() {
 
     fetchtrial();
   }, [isAuthenticated, role, navigate]);
+
+  useEffect(() => {
+    const getBlog = async  () => {
+      await getBlogbyId(id);
+    };
+    getBlog();
+  }, []);
 
   return (
     <div className="text-white bg-zinc-800 overflow-hidden">
@@ -154,7 +162,6 @@ export default function BlogPost() {
             <div className="w-full py-4 flex flex-col justify-center items-center">
               <BlogComment />
               <BlogComment />
-
               <BlogComment />
             </div>
           </div>

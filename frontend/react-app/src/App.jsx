@@ -12,6 +12,7 @@ import Submissions from "./pages/admin/Submissions.jsx";
 import Requests from "./pages/admin/Requests.jsx";
 import Users from "./pages/admin/Users.jsx";
 import BlogListAdmin from "./pages/admin/BlogListAdmin.jsx";
+import BlogPost from "./pages/BlogPost.jsx";
 
 export default function App() {
   return (
@@ -49,6 +50,7 @@ export default function App() {
           <Route path="/menu" element={<MenuPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/create-blog" element={<CreateBlog />} />
+          <Route path="/blogs/:id" element={<BlogPost />} />
           <Route path="/liked" element={<LikedBlogs />} />
           <Route path="/home" element={<Home />} />
           <Route path="/admin/submissions" element={<Submissions />} />

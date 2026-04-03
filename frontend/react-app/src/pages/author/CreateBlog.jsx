@@ -207,8 +207,6 @@ export default function CreateBlog() {
           </div>
         </div>
         <div className="max-w-screen md:h-[4vw] min-h-[4vh] flex-col md:flex-row flex justify-center items-center text-white text-[1.5em] gap-5 md:gap-7 bg-zinc-900 md:py-8 py-6 border-b-[1px] border-zinc-600">
-          {/* <button className="w-[90%] md:w-[45%] border-white border border-[2px] rounded-lg bg-zinc-800">Submit</button>
-          <button className=" w-[90%]  md:w-[45%] border-white border border-[2px] rounded-lg bg-zinc-800">Draft</button> */}
           <button
             className="
               w-90 md:w-40 px-6 py-2.5 

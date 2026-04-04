@@ -104,7 +104,7 @@ export async function getSubmitted() {
     });
     if (res.ok) {
       const data = await res.json();
-      console.log(data.submitted);
+      // console.log(data.submitted);
       return await data;
     } else if (res.status === 401 || res.status === 403) {
       //Case 1: The refresh token exists but accesstoken expires (response is from verifyJwt)

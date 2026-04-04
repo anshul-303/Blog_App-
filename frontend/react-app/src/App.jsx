@@ -5,7 +5,6 @@ import { Toaster } from "react-hot-toast";
 import MenuPage from "./pages/MenuPage.jsx";
 import NotAllowed from "./pages/NotAllowed.jsx";
 import CreateBlog from "./pages/author/CreateBlog.jsx";
-import LikedBlogs from "./pages/LikedBlogs.jsx";
 import Home from "./pages/Home.jsx";
 import Dashboard from "./pages/author/Dashboard.jsx";
 import Submissions from "./pages/admin/Submissions.jsx";
@@ -51,7 +50,6 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/create-blog" element={<CreateBlog />} />
           <Route path="/blogs/:id" element={<BlogPost />} />
-          <Route path="/liked" element={<LikedBlogs />} />
           <Route path="/home" element={<Home />} />
           <Route path="/admin/submissions" element={<Submissions />} />
           <Route path="/admin/requests" element={<Requests />} />

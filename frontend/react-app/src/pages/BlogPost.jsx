@@ -7,7 +7,13 @@ import { checkAuth } from "../api/authApi/authApi";
 import { useRole } from "../contexts/roleContexts.jsx";
 import { ArrowLeft, ThumbsUp, ThumbsDown, Send } from "lucide-react";
 import BlogComment from "../components/viewer/BlogComment.jsx";
-import { getBlogbyId, getCommentsById } from "../api/authApi/viewerApi.js";
+import {
+  getBlogbyId,
+  getCommentsById,
+  addComment,
+  getReactionsById,
+  alterUserReaction,
+} from "../api/authApi/viewerApi.js";
 
 export default function BlogPost() {
   const navigate = useNavigate();
@@ -19,6 +25,11 @@ export default function BlogPost() {
   //useStates for this blo post page.
   const [blogData, setBlogData] = useState([]);
   const [comments, setComments] = useState([]);
+  const [userComment, setUserComment] = useState("");
+
+  const [userReaction, setUserReaction] = useState("none");
+  const [likes, setLikes] = useState(0);
+  const [dislikes, setDislikes] = useState(0);
 
   useEffect(() => {
     const callCheckAuthAPI = async () => {
@@ -59,7 +70,6 @@ export default function BlogPost() {
   useEffect(() => {
     const getBlog = async () => {
       const data = await getBlogbyId(id);
-      //   console.log(data.blogData);
       setBlogData(data.blogData);
     };
     getBlog();
@@ -71,6 +81,13 @@ export default function BlogPost() {
       setComments(data.rows);
     };
     getBlogComments();
+  }, []);
+
+  useEffect(() => {
+    const getBlogReactions = async () => {
+      await getReactionsById(id, setLikes, setDislikes, setUserReaction);
+    };
+    getBlogReactions();
   }, []);
 
   return (
@@ -118,25 +135,64 @@ export default function BlogPost() {
               {blogData.length !== 0 && blogData[0].body}
             </div>
             <div className="w-full py-3 border-y border-y-zinc-800 flex items-center text-md font-bold text-zinc-600 gap-7">
-              <p className="flex justify-center items-center px-6 py-2 border-zinc-700 rounded-lg bg-zinc-800 hover:text-white transition duration-400 ">
+              <button
+                className={`flex justify-center items-center px-6 py-2 border-zinc-700 rounded-lg ${userReaction === "like" ? "bg-zinc-700 text-white" : ""} hover:text-white transition duration-400 `}
+                onClick={async () => {
+                  //   console.log("User liked the blog!");
+                  await alterUserReaction(
+                    id,
+                    userReaction === "like" ? "none" : "like",
+                    setLikes,
+                    setDislikes,
+                    setUserReaction,
+                  );
+                }}
+              >
                 <ThumbsUp className="inline pb-1" />
-                &nbsp;43
-              </p>
-              <p className="flex justify-center items-center px-6 py-2 border-zinc-700 rounded-lg bg-zinc-800 hover:text-white transition duration-400 ">
+                &nbsp;{likes}
+              </button>
+              <button
+                onClick={async () => {
+                  //   console.log("User disliked the blog!");
+                  await alterUserReaction(
+                    id,
+                    userReaction === "dislike" ? "none" : "dislike",
+                    setLikes,
+                    setDislikes,
+                    setUserReaction,
+                  );
+                }}
+                className={`flex justify-center items-center px-6 py-2 border-zinc-700 rounded-lg ${userReaction === "dislike" ? "bg-zinc-700 text-white" : ""} hover:text-white transition duration-400`}
+              >
                 <ThumbsDown className="inline pt-1" />
-                &nbsp; 7
-              </p>
+                &nbsp; {dislikes}
+              </button>
             </div>
-            <p className="w-full py-5 font-semibold text-whitw text-2xl items-center">
-              Comments (1)
+            <p className="w-full py-5 font-semibold text-white text-2xl items-center">
+              Comments ({comments.length})
             </p>
             <div className="w-full justify-start flex items-center gap-2 bg-zinc-900">
               <input
                 type="text"
                 className="w-[83%] md:w-[90%] bg-zinc-800 text-white px-4 py-4 text-lg rounded-lg"
                 placeholder="Add a comment..."
+                value={userComment}
+                onChange={(e) => {
+                  setUserComment(e.target.value);
+                }}
               />
-              <button className="md:w-[8%] text-white px-4 py-4 text-xl font-bold rounded-sm flex justify-center items-center bg-zinc-600 active:bg-zinc-800 transition duration-300 hover:bg-zinc-700">
+              <button
+                onClick={async () => {
+                  console.log("Hello world!");
+                  const data = await addComment(
+                    userComment,
+                    id,
+                    setUserComment,
+                  );
+                  setComments(data.rows);
+                }}
+                className="md:w-[8%] text-white px-4 py-4 text-xl font-bold rounded-sm flex justify-center items-center bg-zinc-600 active:bg-zinc-800 transition duration-300 hover:bg-zinc-700"
+              >
                 <Send />
               </button>
             </div>
@@ -147,9 +203,9 @@ export default function BlogPost() {
                   index={index}
                   commentBody={element.comment}
                   commentAuthor={element.commentAuthor}
-                  commentDate={new Date(
-                    element.commentDate,
-                  ).toLocaleDateString("en-GB")}
+                  commentDate={new Date(element.commentDate).toLocaleDateString(
+                    "en-GB",
+                  )}
                 />
               ))}
             </div>

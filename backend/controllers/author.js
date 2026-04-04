@@ -76,7 +76,7 @@ export async function getSubmitted(req, res) {
         submitted: [],
       });
     }
-    console.log(rows)
+    // console.log(rows)
     return res.status(201).json({
       message: `The drafts have been fetched successfully!`,
       submitted: rows,

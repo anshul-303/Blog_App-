@@ -46,7 +46,7 @@ export async function getCommentsById(id) {
     });
     if (res.ok) {
       const data = await res.json();
-        // console.log(data.rows)
+      // console.log(data.rows)
       return await data;
     } else if (res.status === 401 || res.status === 403) {
       //Case 1: The refresh token exists but accesstoken expires (response is from verifyJwt)
@@ -68,3 +68,130 @@ export async function getCommentsById(id) {
   }
 }
 
+export async function addComment(commentBody, blogId, setUserComment) {
+  try {
+    if (commentBody === "") {
+      toast.error("The comment cannot be empty!");
+      return;
+    }
+    const res = await fetch(`${URL}/viewer/comments/${blogId}`, {
+      credentials: "include",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ commentBody: commentBody }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      // console.log(data.rows);
+      setUserComment("");
+      return await data;
+    } else if (res.status === 401 || res.status === 403) {
+      //Case 1: The refresh token exists but accesstoken expires (response is from verifyJwt)
+      //Case 2: The refresh and access token both dont exist(response is from getNewAccessTOken)
+      const newres = await fetch(`${URL}/auth/refresh`, {
+        credentials: "include",
+        method: "GET",
+      });
+
+      if (newres.ok) {
+        return addComment(commentBody, blogId, setUserComment);
+      } else {
+        navigate("/login");
+        return;
+      }
+    }
+  } catch (error) {
+    console.log("Error detected : ", error);
+  }
+}
+
+export async function getReactionsById(
+  id,
+  setLikes,
+  setDislikes,
+  setUserReaction,
+) {
+  try {
+    const res = await fetch(`${URL}/viewer/reactions/${id}`, {
+      credentials: "include",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.ok) {
+      const data = await res.json();
+      // console.log(data.message);
+      setLikes(data.likes);
+      setDislikes(data.dislikes);
+      setUserReaction(data.userReaction);
+      // return await data;
+      return;
+    } else if (res.status === 401 || res.status === 403) {
+      //Case 1: The refresh token exists but accesstoken expires (response is from verifyJwt)
+      //Case 2: The refresh and access token both dont exist(response is from getNewAccessTOken)
+      const newres = await fetch(`${URL}/auth/refresh`, {
+        credentials: "include",
+        method: "GET",
+      });
+
+      if (newres.ok) {
+        return getReactionsById(id, setLikes, setDislikes, setUserReaction);
+      } else {
+        navigate("/login");
+        return;
+      }
+    }
+  } catch (error) {
+    console.log("Error detected : ", error);
+  }
+}
+
+export async function alterUserReaction(
+  id,
+  userReaction,
+  setLikes,
+  setDislikes,
+  setUserReaction,
+) {
+  try {
+    const res = await fetch(`${URL}/viewer/reactions/${id}`, {
+      credentials: "include",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userReaction: userReaction }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      // console.log(data.rows);
+      getReactionsById(id, setLikes, setDislikes, setUserReaction);
+      return;
+    } else if (res.status === 401 || res.status === 403) {
+      //Case 1: The refresh token exists but accesstoken expires (response is from verifyJwt)
+      //Case 2: The refresh and access token both dont exist(response is from getNewAccessTOken)
+      const newres = await fetch(`${URL}/auth/refresh`, {
+        credentials: "include",
+        method: "GET",
+      });
+
+      if (newres.ok) {
+        return alterUserReaction(
+          id,
+          userReaction,
+          setLikes,
+          setDislikes,
+          setUserReaction,
+        );
+      } else {
+        navigate("/login");
+        return;
+      }
+    }
+  } catch (error) {
+    console.log("Error detected : ", error);
+  }
+}

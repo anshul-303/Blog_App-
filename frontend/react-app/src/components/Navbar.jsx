@@ -36,9 +36,6 @@ export default function Navbar() {
               <Link to="/create-blog">Create</Link>
             </li>
             <li className="underline">
-              <Link to="/liked">Liked</Link>
-            </li>
-            <li className="underline">
               <Link to="/menu">Menu</Link>
             </li>
           </>
@@ -66,9 +63,6 @@ export default function Navbar() {
           <>
             <li className="underline">
               <Link to="/home">Home</Link>
-            </li>
-            <li className="underline">
-              <Link to="/liked">Liked</Link>
             </li>
             <li className="underline">
               <Link to="/menu">Menu</Link>
@@ -104,9 +98,6 @@ export default function Navbar() {
                 <Link to="/create-blog">Create</Link>
               </li>
               <li className="underline" onClick={() => setOpen(false)}>
-                <Link to="/liked">Liked</Link>
-              </li>
-              <li className="underline" onClick={() => setOpen(false)}>
                 <Link to="/menu">Menu</Link>
               </li>
             </>
@@ -116,9 +107,6 @@ export default function Navbar() {
             <>
               <li className="underline" onClick={() => setOpen(false)}>
                 <Link to="/home">Home</Link>
-              </li>
-              <li className="underline" onClick={() => setOpen(false)}>
-                <Link to="/liked">Liked</Link>
               </li>
               <li className="underline" onClick={() => setOpen(false)}>
                 <Link to="/menu">Menu</Link>

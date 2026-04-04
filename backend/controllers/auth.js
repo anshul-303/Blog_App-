@@ -88,7 +88,8 @@ export async function loginUser(req, res) {
           message: `Welcome back ${foundUser.firstName}!`,
           role: foundUser.role,
         });
-    } else {
+    } 
+    else {
       return res
         .status(401)
         .json({ message: `Wrong password! Please try again!` });

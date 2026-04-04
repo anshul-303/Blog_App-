@@ -24,7 +24,6 @@ export async function SignupUser(
     });
     if (res.ok) {
       const data = await res.json();
-      console.log();
       toast.success(data.message);
       navigate("/login");
     } else {
@@ -55,14 +54,20 @@ export async function LoginUser(
         password: password,
       }),
     });
-    if (res.ok) {
+    if (!res.ok) {
+      const data = await res.json();
+      toast.error(data.message);
+      // console.log(data.message);
+    } else if (res.ok) {
       const data = await res.json();
       toast.success(data.message);
       setIsAuthenticated(true);
       setRole(data.role);
-      navigate("/menu");
-    } else {
-      throw Error("Internal server error!");
+      if (data.role === "viewer" || data.role === "author") {
+        navigate("/menu");
+      } else if (data.role === "admin") {
+        navigate("/admin/submissions");
+      }
     }
   } catch (error) {
     console.log("Error detected! : ", error);

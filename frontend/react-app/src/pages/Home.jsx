@@ -7,12 +7,25 @@ import { checkAuth } from "../api/authApi/authApi.js";
 import { useRole } from "../contexts/roleContexts.jsx";
 import { Sparkles } from "lucide-react";
 import AuthorArticleCard from "../components/author/AuthorArticleCard.jsx";
+import { getPublishedBlogs } from "../api/authApi/viewerApi.js";
 
 export default function Home() {
   const navigate = useNavigate();
   const { isAuthenticated, setIsAuthenticated } = useAuth();
   const { role, setRole } = useRole();
   const url = import.meta.env.VITE_APP_API_URL;
+
+  //Usestates which are used in this blog
+  const [blogs, setBlogs] = useState([]);
+
+  useEffect(() => {
+    const getBlogs = async () => {
+      console.log("Hello world!");
+      const data = await getPublishedBlogs();
+      setBlogs(data.blogsList);
+    };
+    getBlogs();
+  }, []);
 
   useEffect(() => {
     const callCheckAuthAPI = async () => {
@@ -74,16 +87,22 @@ export default function Home() {
         <p className="py-2 text-zinc-700 uppercase font-semibold text-md pl-2 md:pl-1">
           L a t e s t &nbsp;a r t i c l e s
         </p>
-        <div className="w-full flex flex-wrap md:flex-row flex-col justify-around items-start gap-3 ">
-          <AuthorArticleCard />
-          <AuthorArticleCard />
-          <AuthorArticleCard />
-          <AuthorArticleCard />
-          <AuthorArticleCard />
-          <AuthorArticleCard />
-          <AuthorArticleCard />
-          <AuthorArticleCard />
-          <AuthorArticleCard />
+        <div className="w-full flex flex-wrap md:flex-row flex-col justify-start items-start gap-3 ">
+          {blogs.map((element, index) => (
+            <AuthorArticleCard
+              key={element.blogId}
+              index={index}
+              blogId={element.blogId}
+              title={element.title}
+              author={element.Author}
+              summary={element.summary}
+              likeCount={element.likeCount}
+              commentCount={element.commentCount}
+              createdAt={new Date(element.createdAt).toLocaleDateString(
+                "en-GB",
+              )}
+            />
+          ))}
         </div>
       </div>
       <footer className="border-t border-t-zinc-700 w-full h-[8vh] justify-center flex items-center font-bold text-lg text-zinc-700 bg-zinc-900">

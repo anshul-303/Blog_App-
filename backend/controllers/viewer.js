@@ -183,3 +183,38 @@ export async function alterUserReaction(req, res) {
     return res.status(500).json({ message: "Internal server error!" });
   }
 }
+
+export async function getPublishedBlogs(req, res) {
+  try {
+    console.log("Hello world!");
+    const [rows] = await pool.query(`
+        SELECT 
+        CONCAT(a.firstName, ' ', a.lastName) AS Author,
+        b.blogId AS blogId, 
+        b.title AS title,
+        b.summary AS summary, 
+        b.createdAt AS createdAt,
+        COUNT(DISTINCT r.userId) AS likeCount,
+        COUNT(DISTINCT c.commentId) AS commentCount
+        FROM blogs b 
+        INNER JOIN users a 
+            ON a.userId = b.authorId 
+        LEFT JOIN reactions r 
+            ON r.blogId = b.blogId AND r.reaction = 'like'
+        LEFT JOIN comments c 
+            ON c.blogId = b.blogId
+        WHERE b.status = 'published' 
+        GROUP BY b.blogId
+        ORDER BY b.createdAt DESC 
+        ;
+    `);
+    // console.log(rows);
+    res.status(200).json({
+      message: "The publihsed blogs have been fetched successfully!",
+      blogsList: rows,
+    });
+  } catch (error) {
+    console.log("Error detected! : ", error);
+    return res.status(500).json({ message: "Internal server error!" });
+  }
+}

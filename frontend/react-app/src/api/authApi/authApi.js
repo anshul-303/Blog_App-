@@ -64,7 +64,7 @@ export async function LoginUser(
       setIsAuthenticated(true);
       setRole(data.role);
       if (data.role === "viewer" || data.role === "author") {
-        navigate("/menu");
+        navigate("/home");
       } else if (data.role === "admin") {
         navigate("/admin/submissions");
       }

@@ -87,7 +87,7 @@ export default function Home() {
         <p className="py-2 text-zinc-700 uppercase font-semibold text-md pl-2 md:pl-1">
           L a t e s t &nbsp;a r t i c l e s
         </p>
-        <div className="w-full flex flex-wrap md:flex-row flex-col justify-start items-start gap-3 ">
+        <div className="w-full flex flex-wrap md:flex-row flex-col justify-start items-start gap-3">
           {blogs.map((element, index) => (
             <AuthorArticleCard
               key={element.blogId}

@@ -11,13 +11,13 @@ export default function AuthorArticleCard({
   createdAt,
 }) {
   return (
-    <div className="bg-zinc-800 md:w-[31vw] md:min-h-[26vh] in-h-[18vh] w-[93vw] mr-4 md:m-0 flex flex-col justify-start items-start p-6 border border-zinc-700 rounded-lg border-[2px] gap-3">
+    <div className="bg-zinc-800 md:w-[31vw] md:min-h-[26vh] min-h-[18vh] w-[93vw] mr-4 md:m-0 flex flex-col justify-start items-start p-6 border border-zinc-700 rounded-lg border-[2px] gap-3">
       <p className=" text-2xl md:text-2xl font-semibold text-zinc-200 ">
         <Link to={`/blogs/${blogId}`} className="hover:underline">
           {title}
         </Link>
       </p>
-      <p className=" md:text-[1em] text-sm text-zinc-500 flex gap-1  justify-center ">
+      <p className=" md:text-[1em] text-sm text-zinc-500 flex gap-1 justify-center ">
         {summary}
       </p>
       <div className="flex gap-4">

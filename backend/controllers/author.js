@@ -86,3 +86,91 @@ export async function getSubmitted(req, res) {
     return res.status(500).json({ message: "Internal server error!" });
   }
 }
+
+export async function getAuthorStatistics(req, res) {
+  try {
+    // console.log("Fetching author statistics...");
+    const [likesRows] = await pool.query(
+      `
+        SELECT 
+        COUNT(r.userId) AS totalLikes
+        FROM reactions AS r
+        JOIN blogs AS b 
+          ON r.blogId = b.blogId
+        WHERE b.authorId = ? 
+          AND r.reaction = 'like';
+  `,
+      [req.userId],
+    );
+    const [publishedBlogsRows] = await pool.query(
+      `
+        SELECT 
+        COUNT(blogId) AS publishedBlogs 
+        FROM blogs 
+        WHERE authorId = ?
+        AND status = 'published';
+  `,
+      [req.userId],
+    );
+    const [commentsRows] = await pool.query(
+      `
+        SELECT 
+            COUNT(c.commentId) AS totalComments 
+        FROM comments AS c 
+        INNER JOIN blogs AS b 
+            ON c.blogId = b.blogId
+        WHERE b.authorId = ?;
+  `,
+      [req.userId],
+    );
+    return res.status(201).json({
+      message: `The author statistics have been fetched successfully!`,
+      totalLikes: likesRows[0].totalLikes,
+      publishedBlogs: publishedBlogsRows[0].publishedBlogs,
+      totalComments: commentsRows[0].totalComments,
+    });
+  } catch (error) {
+    console.log("Error detected! : ", error);
+    return res.status(500).json({ message: "Internal server error!" });
+  }
+}
+
+export async function getAllAuthorArticles(req, res) {
+  try {
+    console.log("Fetching author articles...");
+    const [rows] = await pool.query(
+      `
+  
+      SELECT 
+        CONCAT(u.firstName, ' ', u.lastName) AS authorName,
+        b.blogId, 
+        b.title,
+        b.summary, 
+        b.createdAt,
+        COUNT(DISTINCT r.userId) AS likeCount,
+        COUNT(DISTINCT c.commentId) AS commentCount,
+        b.status as status
+        FROM blogs AS b 
+        INNER JOIN users AS u 
+            ON u.userId = b.authorId 
+        LEFT JOIN reactions AS r 
+            ON r.blogId = b.blogId 
+            AND r.reaction = 'like'
+        LEFT JOIN comments AS c 
+            ON c.blogId = b.blogId
+        WHERE b.authorId = ?
+        GROUP BY b.blogId
+        ORDER BY b.createdAt DESC;
+    `,
+      [req.userId],
+    );
+    console.log(rows);
+    return res.status(201).json({
+      message: `All the author articles have been fetched successfully!`,
+      blogsList: rows,
+    });
+  } catch (error) {
+    console.log("Error detected! : ", error);
+    return res.status(500).json({ message: "Internal server error!" });
+  }
+}

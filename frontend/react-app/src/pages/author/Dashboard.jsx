@@ -1,11 +1,5 @@
 import { Link } from "react-router-dom";
-import {
-  ThumbsUp,
-  FileSpreadsheet,
-  MessageCircle,
-  User,
-  Calendar,
-} from "lucide-react";
+import { ThumbsUp, FileSpreadsheet, MessageCircle } from "lucide-react";
 import { FilePen } from "lucide-react";
 import Navbar from "../../components/Navbar.jsx";
 import { useEffect, useState } from "react";
@@ -16,7 +10,12 @@ import { useRole } from "../../contexts/roleContexts.jsx";
 import AuthorDraftCard from "../../components/author/AuthorDraftCard.jsx";
 import AuthorPublishedCard from "../../components/author/AuthorPublishedCard.jsx";
 import AuthorSubmissionCard from "../../components/author/AuthorSubmissionCard.jsx";
-import { getDrafts, getSubmitted } from "../../api/authApi/authorApi.js";
+import {
+  getAllAuthorArticles,
+  getAuthorStatistics,
+  getDrafts,
+  getSubmitted,
+} from "../../api/authApi/authorApi.js";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -25,7 +24,7 @@ export default function Dashboard() {
   const url = import.meta.env.VITE_APP_API_URL;
 
   //UseStates
-  const [submissionCount, setSubmissionCount] = useState(null);
+  const [publishedCount, setPublishedCount] = useState(null);
   const [likesCount, setLikesCount] = useState(null);
   const [commentsCount, setCommentsCount] = useState(null);
 
@@ -78,11 +77,29 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
-    const callApi = async () => {
+    const getSubmissions = async () => {
       const data = await getSubmitted();
       setSubmissionsList(data.submitted);
     };
-    callApi();
+    getSubmissions();
+  }, []);
+
+  useEffect(() => {
+    const getAuthorStats = async () => {
+      const data = await getAuthorStatistics();
+      setCommentsCount(data.totalComments);
+      setLikesCount(data.totalLikes);
+      setPublishedCount(data.publishedBlogs);
+    };
+    getAuthorStats();
+  }, []);
+
+  useEffect(() => {
+    const getAllArticles = async () => {
+      const data = await getAllAuthorArticles();
+      setArticlesList(data.blogsList);
+    };
+    getAllArticles();
   }, []);
 
   return (
@@ -103,19 +120,19 @@ export default function Dashboard() {
       <div className="w-full md:min-h-[25vh] min-h-[20vh] bg-zinc-900 flex justify-center items-center py-1 px-2 md:px-3 md:py-2 gap-3">
         <div className="w-[32vw] md:h-[23vh] h-[18vh] bg-zinc-800 flex flex-col justify-center items-center gap-1 border border-[3px] rounded-lg border-zinc-800">
           <FileSpreadsheet className="w-9 h-9 font-bold mb-5 text-zinc-500" />
-          <p className="text-3xl font-bold text-white">19</p>
+          <p className="text-3xl font-bold text-white">{publishedCount}</p>
 
           <p className="text-1xl font-semibold text-zinc-500">Published</p>
         </div>
         <div className="w-[32vw] md:h-[23vh] h-[18vh] bg-zinc-800 flex flex-col justify-center items-center gap-1 border border-[3px] rounded-lg border-zinc-800">
           <ThumbsUp className="w-9 h-9 font-bold mb-5 text-zinc-500" />
-          <p className="text-3xl font-bold text-white">89</p>
+          <p className="text-3xl font-bold text-white">{likesCount}</p>
 
           <p className="text-1xl font-semibold text-zinc-500">Likes</p>
         </div>
         <div className="w-[32vw] md:h-[23vh] h-[18vh] bg-zinc-800 flex flex-col justify-center items-center gap-1 border border-[3px] rounded-lg border-zinc-800">
           <MessageCircle className="w-9 h-9 font-bold mb-5 text-zinc-500" />
-          <p className="text-3xl font-bold text-white">38</p>
+          <p className="text-3xl font-bold text-white">{commentsCount}</p>
 
           <p className="text-1xl font-semibold text-zinc-500">Comments</p>
         </div>
@@ -127,7 +144,9 @@ export default function Dashboard() {
         {draftsList.length === 0 && (
           <>
             <div className="w-[95vw] md:w-[97vw] h-[8vh] md:min-h-[10vh] flex flex-col gap-5 justify-center items-center border border-zinc-700 rounded-sm border-[3px]">
-              <p className="text-3xl font-semi-bold text-zinc-400">No drafts!</p>
+              <p className="text-3xl font-semi-bold text-zinc-400">
+                No drafts!
+              </p>
             </div>
           </>
         )}
@@ -139,7 +158,6 @@ export default function Dashboard() {
             summary={element.summary}
           />
         ))}
-        {/* <AuthorDraftCard /> */}
       </div>
 
       <div className="w-full pt-3 md:min-h-[40vh] min-h-[45vh] bg-zinc-900 flex flex-col justify-start items-start px-4 px-5 gap-2 ">
@@ -147,19 +165,34 @@ export default function Dashboard() {
           A L L &nbsp; A R T I C L E S
         </p>
         <div className="flex gap-3 flex-wrap justify-start">
-          <AuthorPublishedCard />
-          <AuthorPublishedCard />
+          {articlesList.map((element, index) => (
+            <AuthorPublishedCard
+              key={element.blogId}
+              blogId={element.blogId}
+              title={element.title}
+              summary={element.summary}
+              author={element.authorName}
+              likesCount={element.likeCount}
+              commentsCount={element.commentCount}
+              status={element.status}
+              createdAt={new Date(element.createdAt).toLocaleDateString(
+                "en-GB",
+              )}
+            />
+          ))}
         </div>
       </div>
 
       <div className="w-full md:min-h-[45vh] min-h-[45vh] bg-zinc-900 flex flex-col justify-start items-start px-5 gap-2 pb-4">
-        <p className="pb-2 text-zinc-700 uppercase font-semibold text-md pl-2 md:pl-2">
+        <p className="pb-2 text-zinc-700 uppercase font-semibold text-md pl-2 pt-5 md:pl-2">
           S U B M I S S I O N S
         </p>
         {submissionsList.length === 0 && (
           <>
             <div className="w-[95vw] md:w-[97vw] h-[8vh] md:min-h-[10vh] flex flex-col gap-5 justify-center items-center border border-zinc-700 rounded-sm border-[3px]">
-              <p className="text-3xl font-semi-bold text-zinc-400">No submissions yet!</p>
+              <p className="text-3xl font-semi-bold text-zinc-400">
+                No submissions yet!
+              </p>
             </div>
           </>
         )}

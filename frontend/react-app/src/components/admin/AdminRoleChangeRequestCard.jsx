@@ -1,8 +1,11 @@
+import { handleAdminRoleChangeRequests } from "../../api/authApi/adminApi";
+
 export default function AdminRoleChangeRequestCard({
   requestId,
   name,
   createdAt,
   requestedBy,
+  setRoleChangeRequestsLists,
 }) {
   return (
     <div className="w-[94vw] md:w-[97vw] md:h-[14vh] h-[16vh] border border-zinc-700 items-center md:items-start rounded-sm flex flex-col md:flex-row gap-2 py-2 px-6 bg-zinc-900 hover:bg-zinc-800 transition duration-300">
@@ -20,6 +23,13 @@ export default function AdminRoleChangeRequestCard({
                 transition-all duration-200 ease-in-out
                 hover:bg-emerald-500 hover:scale-105 hover:shadow-md
                 active:scale-95 active:shadow-inner"
+          onClick={async () => {
+            console.log("The request has been accepted!");
+            await handleAdminRoleChangeRequests(
+              setRoleChangeRequestsLists,
+              "accept",
+            );
+          }}
         >
           ✓
         </button>
@@ -28,6 +38,13 @@ export default function AdminRoleChangeRequestCard({
                 transition-all duration-200 ease-in-out
                 hover:bg-rose-500 hover:scale-105 hover:shadow-md
                 active:scale-95 active:shadow-inner"
+          onClick={async () => {
+            console.log("The request has been rejcted!");
+            await handleAdminRoleChangeRequests(
+              setRoleChangeRequestsLists,
+              "accept",
+            );
+          }}
         >
           X
         </button>

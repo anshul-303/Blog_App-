@@ -94,12 +94,13 @@ export default function Requests() {
         </p>
         {roleChangeRequestsList.map((element, index) => (
           <AdminRoleChangeRequestCard
-            key={element.requestedId}
+            key={element.requestId}
             requestId={element.requestId}
             index={index}
             name={element.name}
             requestedBy={element.requestedBy}
             createdAt={new Date(element.createdAt).toLocaleDateString("en-GB")}
+            setRoleChangeRequestsLists={setRoleChangeRequestsLists}
           />
         ))}
         {/* <AdminRoleChangeRequestCard/> */}

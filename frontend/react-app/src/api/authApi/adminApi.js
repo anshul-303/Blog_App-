@@ -105,7 +105,6 @@ export async function getAdminSummary() {
   }
 }
 
-
 export async function getAdminRoleChangeRequests() {
   try {
     const res = await fetch(`${URL}/admin/requests`, {
@@ -140,5 +139,39 @@ export async function getAdminRoleChangeRequests() {
   }
 }
 
+export async function handleAdminRoleChangeRequests(setRequestList, action) {
+  try {
+    const res = await fetch(`${URL}/admin/requests`, {
+      credentials: "include",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ action: action }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      console.log(data.message);
+      // return await data;
+      return ;
+    } else if (res.status === 401 || res.status === 403) {
+      //Case 1: The refresh token exists but accesstoken expires (response is from verifyJwt)
+      //Case 2: The refresh and access token both dont exist(response is from getNewAccessTOken)
+      const newres = await fetch(`${URL}/auth/refresh`, {
+        credentials: "include",
+        method: "GET",
+      });
+
+      if (newres.ok) {
+        return handleAdminRoleChangeRequests(setRequestList, action);
+      } else {
+        navigate("/login");
+        return;
+      }
+    }
+  } catch (error) {
+    console.log("Error detected : ", error);
+  }
+}
 
 //API call to decline or accept the user's request to be an author

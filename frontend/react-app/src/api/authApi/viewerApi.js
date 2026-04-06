@@ -243,7 +243,7 @@ export async function getRoleChangeRequests(setRoleChangeRequests) {
     if (res.ok) {
       const data = await res.json();
       // console.log(data.requests);
-      setRoleChangeRequests(data.requests);
+      setRoleChangeRequests(data.requests)
       return await data;
     } else if (res.status === 401 || res.status === 403) {
       //Case 1: The refresh token exists but accesstoken expires (response is from verifyJwt)

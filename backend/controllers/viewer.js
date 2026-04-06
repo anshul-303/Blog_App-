@@ -1,6 +1,7 @@
 import pool from "../config/dbconfig.js";
 
 export async function getBlogbyId(req, res) {
+
   try {
     const { id } = req.params;
     const [rows] = await pool.query(
@@ -59,7 +60,7 @@ export async function getCommentsById(req, res) {
     // console.log(rows);
 
     return res.status(200).json({
-      message: "The blog has been fetched successfully on basis of id!",
+      message: "The blog comments has been fetched successfully on basis of id!",
       rows: rows,
     });
   } catch (error) {
@@ -210,8 +211,49 @@ export async function getPublishedBlogs(req, res) {
     `);
     // console.log(rows);
     res.status(200).json({
-      message: "The publihsed blogs have been fetched successfully!",
+      message: "The published blogs have been fetched successfully!",
       blogsList: rows,
+    });
+  } catch (error) {
+    console.log("Error detected! : ", error);
+    return res.status(500).json({ message: "Internal server error!" });
+  }
+}
+
+export async function roleChangeRequest(req, res) {
+  try {
+    console.log("The user is requesting for role change...");
+    await pool.query(
+      `
+    INSERT into roleChangelogs (requestedBy)
+    VALUES
+    (?);
+  `,
+      [req.userId],
+    );
+    // const [rows] = await pool.query("SELECT * FROM roleChangelogs;");
+    // console.log(rows);
+    res.status(200).json({
+      message: "The user request to change role has been generated!",
+    });
+  } catch (error) {
+    console.log("Error detected! : ", error);
+    return res.status(500).json({ message: "Internal server error!" });
+  }
+}
+
+export async function getRoleCR(req, res) {
+  try {
+    console.log("Fetching user requests for role change...");
+    const [rows] = await pool.query(
+      "SELECT * FROM roleChangelogs WHERE requestedBy=?;",
+      [req.userId],
+    );
+
+    console.log(rows);
+    res.status(200).json({
+      message: "The user request to change role has been generated!",
+      requests: rows,
     });
   } catch (error) {
     console.log("Error detected! : ", error);

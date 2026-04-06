@@ -210,6 +210,9 @@ export default function Dashboard() {
           ))}
         </div>
       </div>
+      <footer className="border-t border-t-zinc-700 w-full h-[8vh] justify-center flex items-center font-bold text-lg text-zinc-700 bg-zinc-900">
+        ©Anshul Patil • All rights reserved, 2026
+      </footer>
 
       {/* <div className="w-screen h-[100vh] bg-zinc-800"></div> */}
     </div>

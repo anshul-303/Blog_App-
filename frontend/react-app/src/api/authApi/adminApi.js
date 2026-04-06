@@ -139,7 +139,12 @@ export async function getAdminRoleChangeRequests() {
   }
 }
 
-export async function handleAdminRoleChangeRequests(setRequestList, action) {
+export async function handleAdminRoleChangeRequests(
+  setRequestList,
+  action,
+  viewerId,
+  requestId,
+) {
   try {
     const res = await fetch(`${URL}/admin/requests`, {
       credentials: "include",
@@ -147,13 +152,21 @@ export async function handleAdminRoleChangeRequests(setRequestList, action) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ action: action }),
+      body: JSON.stringify({
+        action: action,
+        viewerId: viewerId,
+        requestId: requestId,
+      }),
     });
     if (res.ok) {
       const data = await res.json();
-      console.log(data.message);
+      // console.log(data.message);
+
+      const res2 = await getAdminRoleChangeRequests();
+     
+      setRequestList(res2.rows);
       // return await data;
-      return ;
+      return;
     } else if (res.status === 401 || res.status === 403) {
       //Case 1: The refresh token exists but accesstoken expires (response is from verifyJwt)
       //Case 2: The refresh and access token both dont exist(response is from getNewAccessTOken)
@@ -163,7 +176,12 @@ export async function handleAdminRoleChangeRequests(setRequestList, action) {
       });
 
       if (newres.ok) {
-        return handleAdminRoleChangeRequests(setRequestList, action);
+        return handleAdminRoleChangeRequests(
+          setRequestList,
+          action,
+          viewerId,
+          requestId,
+        );
       } else {
         navigate("/login");
         return;

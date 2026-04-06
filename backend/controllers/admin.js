@@ -75,9 +75,10 @@ export async function getAdminRoleChangeRequests(req, res) {
       FROM 
           rolechangelogs r
       INNER JOIN 
-          users u ON r.requestedBy = u.userId;
+          users u ON r.requestedBy = u.userId 
+      WHERE r.resolvedAt is NULL;
     `);
-    console.log(rows);
+    // console.log(rows);
     return res.status(200).json({
       message: "Admin role change requests fetched successfully!",
       rows: rows,
@@ -91,20 +92,35 @@ export async function getAdminRoleChangeRequests(req, res) {
 export async function handleAdminRoleChangeRequests(req, res) {
   try {
     console.log("Handling admin role change requests...");
-    const {action}=req.body;
-    console.log(action)
-    // const [rows] = await pool.query(`
-    //   SELECT 
-    //   r.requestId as requestId, 
-    //   r.requestedBy as requestedBy,
-    //   r.createdAt as createdAt,
-    //   CONCAT(u.firstName, ' ', u.lastName) AS name
-    //   FROM 
-    //       rolechangelogs r
-    //   INNER JOIN 
-    //       users u ON r.requestedBy = u.userId;
-    // `);
-    // console.log(rows);
+    const { action, viewerId, requestId } = req.body;
+    console.log(action, viewerId);
+    if (action === "accept") {
+      await pool.query(
+        `
+        UPDATE users SET role="author" WHERE userId=?;
+        `,
+        [viewerId],
+      );
+      await pool.query(
+        `
+        UPDATE rolechangelogs SET resolvedBy=? , resolvedAt =NOW() WHERE requestId=?;
+        `,
+        [req.userId, requestId],
+      );
+    } else {
+      await pool.query(
+        `
+        UPDATE users SET role="viewer" WHERE userId=?;
+        `,
+        [viewerId],
+      );
+      await pool.query(
+        `
+        UPDATE rolechangelogs SET resolvedBy=? , resolvedAt =NOW() WHERE requestId=?;
+        `,
+        [req.userId, requestId],
+      );
+    }
     return res.status(200).json({
       message: "Admin role change requests fetched successfully!",
     });
@@ -114,8 +130,8 @@ export async function handleAdminRoleChangeRequests(req, res) {
   }
 }
 
-
-/* 1. Query to the database to change thw role of the user from viewer to user
+/* 
+1. Query to the database to change the role of the user from viewer to user
 2. Update the role change logs table with resolved request time and user ID of the admin which has resolved the request.
 3. Return remaining requests to frontend by by refactoring the API call in adminApi.js
 */

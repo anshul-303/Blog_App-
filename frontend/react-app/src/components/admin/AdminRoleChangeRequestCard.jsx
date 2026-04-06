@@ -28,6 +28,8 @@ export default function AdminRoleChangeRequestCard({
             await handleAdminRoleChangeRequests(
               setRoleChangeRequestsLists,
               "accept",
+              requestedBy,
+              requestId,
             );
           }}
         >
@@ -42,7 +44,9 @@ export default function AdminRoleChangeRequestCard({
             console.log("The request has been rejcted!");
             await handleAdminRoleChangeRequests(
               setRoleChangeRequestsLists,
-              "accept",
+              "decline",
+              requestedBy,
+              requestId,
             );
           }}
         >

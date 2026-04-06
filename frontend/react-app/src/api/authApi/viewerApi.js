@@ -208,7 +208,6 @@ export async function getPublishedBlogs() {
       const data = await res.json();
       // console.log(data.blogsList);
       return await data;
-      return;
     } else if (res.status === 401 || res.status === 403) {
       //Case 1: The refresh token exists but accesstoken expires (response is from verifyJwt)
       //Case 2: The refresh and access token both dont exist(response is from getNewAccessTOken)
@@ -254,7 +253,7 @@ export async function getRoleChangeRequests(setRoleChangeRequests) {
       });
 
       if (newres.ok) {
-        return getRoleChangeRequests();
+        return getRoleChangeRequests(setRoleChangeRequests);
       } else {
         navigate("/login");
         return;
@@ -289,7 +288,7 @@ export async function roleChangeRequest(setRoleChangeRequests) {
       });
 
       if (newres.ok) {
-        return roleChangeRequest();
+        return roleChangeRequest(setRoleChangeRequests);
       } else {
         navigate("/login");
         return;

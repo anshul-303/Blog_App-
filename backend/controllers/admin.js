@@ -130,8 +130,20 @@ export async function handleAdminRoleChangeRequests(req, res) {
   }
 }
 
-/* 
-1. Query to the database to change the role of the user from viewer to user
-2. Update the role change logs table with resolved request time and user ID of the admin which has resolved the request.
-3. Return remaining requests to frontend by by refactoring the API call in adminApi.js
-*/
+export async function getUsersList(req, res) {
+  try {
+    console.log("Fetching users list...");
+    const [rows] = await pool.query(`
+    SELECT userId, CONCAT(firstName, " ", lastName) AS name, email,role 
+    FROM users;`);
+    res
+      .status(200)
+      .json({
+        message: "Users list has been successfully fetched!",
+        users: rows,
+      });
+  } catch (error) {
+    console.log("Error detected! : ", error);
+    return res.status(500).json({ message: "Internal server error!" });
+  }
+}

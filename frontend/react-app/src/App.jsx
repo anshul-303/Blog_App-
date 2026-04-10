@@ -12,6 +12,7 @@ import Requests from "./pages/admin/Requests.jsx";
 import Users from "./pages/admin/Users.jsx";
 import BlogListAdmin from "./pages/admin/BlogListAdmin.jsx";
 import BlogPost from "./pages/BlogPost.jsx";
+import EditDraft from "./pages/author/EditDraft.jsx";
 
 export default function App() {
   return (
@@ -49,13 +50,13 @@ export default function App() {
           <Route path="/menu" element={<MenuPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/create-blog" element={<CreateBlog />} />
+          <Route path="/edit-draft/:id" element={<EditDraft />} />
           <Route path="/blogs/:id" element={<BlogPost />} />
           <Route path="/home" element={<Home />} />
           <Route path="/admin/submissions" element={<Submissions />} />
           <Route path="/admin/requests" element={<Requests />} />
           <Route path="/admin/blogs" element={<BlogListAdmin />} />
           <Route path="/admin/users" element={<Users />} />
-
           <Route path="/403" element={<NotAllowed />} />
         </Routes>
       </BrowserRouter>

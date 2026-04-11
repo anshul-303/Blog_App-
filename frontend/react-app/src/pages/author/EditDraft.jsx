@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext.jsx";
 import { checkAuth } from "../../api/authApi/authApi.js";
 import { useRole } from "../../contexts/roleContexts.jsx";
+import { getDraftById } from "../../api/authApi/authorApi.js";
 
 export default function EditDraft() {
   const navigate = useNavigate();
@@ -15,9 +16,20 @@ export default function EditDraft() {
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
   const [body, setBody] = useState();
-  const [headimageUrl, setHeadImageUrl] = useState("");
+  const [headImageUrl, setHeadImageUrl] = useState("");
+
   const { id } = useParams();
-  console.log(id)
+
+  useEffect(() => {
+    const getDraft = async () => {
+      const data = await getDraftById(id);
+      setTitle(data.draft[0].title);
+      setSummary(data.draft[0].summary);
+      setBody(data.draft[0].body);
+      setHeadImageUrl(data.draft[0].headImageUrl);
+    };
+    getDraft();
+  }, []);
 
   useEffect(() => {
     const callCheckAuthAPI = async () => {
@@ -145,7 +157,7 @@ export default function EditDraft() {
                   </label>
 
                   <textarea
-                    value={headimageUrl}
+                    value={headImageUrl}
                     onChange={(e) => setHeadImageUrl(e.target.value)}
                     spellCheck="false"
                     placeholder="Paste image URL here..."
@@ -168,7 +180,7 @@ export default function EditDraft() {
 
                   <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden border border-zinc-700 bg-zinc-950 flex items-center justify-center">
                     <img
-                      src={headimageUrl || "/image_placeholder.jpg"}
+                      src={headImageUrl || "/image_placeholder.jpg"}
                       alt="Head preview"
                       className="w-full h-full object-cover transition-transform duration-300 hover:scale-[1.02]"
                     />
@@ -188,7 +200,7 @@ export default function EditDraft() {
                   {summary}
                 </p>
                 <img
-                  src={headimageUrl || "/image_placeholder.jpg"}
+                  src={headImageUrl || "/image_placeholder.jpg"}
                   alt="Head preview"
                   className="w-[80%] h-[60%] object-cover transition-transform duration-300 hover:scale-[1.02] rounded-sm py-6"
                 />

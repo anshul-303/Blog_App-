@@ -174,3 +174,31 @@ export async function getAllAuthorArticles(req, res) {
     return res.status(500).json({ message: "Internal server error!" });
   }
 }
+
+export async function getDraftById(req, res) {
+  try {
+    const { id } = req.params;
+    const [rows] = await pool.query(
+      `
+      
+      SELECT 
+      blogId,
+      title, 
+      summary, 
+      body, 
+      headImageUrl 
+      FROM 
+          blogs 
+      WHERE 
+          status = 'draft' AND blogId=?;`,
+      [id],
+    );
+    console.log(rows);
+    return res
+      .status(200)
+      .json({ message: "The draft has been fetched by ID!", draft: rows });
+  } catch (error) {
+    console.log("Error detected! : ", error);
+    return res.status(500).json({ message: "Internal server error!" });
+  }
+}

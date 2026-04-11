@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext.jsx";
 import { checkAuth } from "../../api/authApi/authApi.js";
 import { useRole } from "../../contexts/roleContexts.jsx";
-import { getDraftById } from "../../api/authApi/authorApi.js";
+import { getDraftById, updateDraftById } from "../../api/authApi/authorApi.js";
 
 export default function EditDraft() {
   const navigate = useNavigate();
@@ -227,8 +227,17 @@ export default function EditDraft() {
               font-semibold text-base rounded-lg 
               hover:bg-white hover:scale-[1.02] 
               active:scale-95 transition-all duration-200"
-            onClick={() => {
+            onClick={async () => {
               console.log("Blog submitted!");
+              await updateDraftById(
+                id,
+                title,
+                summary,
+                body,
+                headImageUrl,
+                "submit",
+                navigate,
+              );
             }}
           >
             Submit
@@ -240,10 +249,19 @@ export default function EditDraft() {
               w-90 md:w-40 px-6 py-2.5 
               bg-zinc-800 text-zinc-100 border border-zinc-700
               font-medium text-base rounded-lg 
-              hover:bg-zinc-700 hover:border-zinc-600 
+              hover:bg-zinc-700 hover:border-zinc-600
               active:scale-95 transition-all duration-200"
-            onClick={() => {
+            onClick={async () => {
               console.log("Blog drafted!");
+              await updateDraftById(
+                id,
+                title,
+                summary,
+                body,
+                headImageUrl,
+                "draft",
+                navigate,
+              );
             }}
           >
             Draft

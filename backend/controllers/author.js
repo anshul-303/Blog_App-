@@ -193,10 +193,40 @@ export async function getDraftById(req, res) {
           status = 'draft' AND blogId=?;`,
       [id],
     );
-    console.log(rows);
+    // console.log(rows);
     return res
       .status(200)
       .json({ message: "The draft has been fetched by ID!", draft: rows });
+  } catch (error) {
+    console.log("Error detected! : ", error);
+    return res.status(500).json({ message: "Internal server error!" });
+  }
+}
+
+export async function updateDraftById(req, res) {
+  try {
+    const { id } = req.params;
+    const { body, title, summary, headImageUrl, action } = req.body;
+    // console.log(id, body, title, summary, headImageUrl, action);
+    const status = action === "submit" ? "submitted" : "draft";
+    await pool.query(
+      `
+    UPDATE blogs
+    SET 
+      title = ?, 
+      summary = ?, 
+      body = ?, 
+      headImageUrl = ?, 
+      updatedAt = NOW(), 
+      status = ? 
+    WHERE 
+      blogId = ?;
+    `,
+      [title, summary, body, headImageUrl, status, id],
+    );
+    return res.status(200).json({
+      message: `The post has been successfully saved as ${status}!`,
+    });
   } catch (error) {
     console.log("Error detected! : ", error);
     return res.status(500).json({ message: "Internal server error!" });

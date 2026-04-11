@@ -205,7 +205,6 @@ export async function getDraftById(id) {
       const data = await res.json();
       // console.log(data);
       return await data;
-    
     } else if (res.status === 401 || res.status === 403) {
       //Case 1: The refresh token exists but accesstoken expires (response is from verifyJwt)
       //Case 2: The refresh and access token both dont exist(response is from getNewAccessTOken)
@@ -216,6 +215,58 @@ export async function getDraftById(id) {
 
       if (newres.ok) {
         return getDraftById(id);
+      } else {
+        navigate("/login");
+        return;
+      }
+    }
+  } catch (error) {
+    console.log("Error detected : ", error);
+  }
+}
+
+export async function updateDraftById(
+  id,
+  title,
+  summary,
+  body,
+  headImageUrl,
+  action,
+  navigate,
+) {
+  try {
+    const res = await fetch(`${URL}/author/draft/${id}`, {
+      credentials: "include",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title, summary, body, headImageUrl, action }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      console.log(data);
+      navigate("/home");
+      return;
+      // return await data;
+    } else if (res.status === 401 || res.status === 403) {
+      //Case 1: The refresh token exists but accesstoken expires (response is from verifyJwt)
+      //Case 2: The refresh and access token both dont exist(response is from getNewAccessTOken)
+      const newres = await fetch(`${URL}/auth/refresh`, {
+        credentials: "include",
+        method: "GET",
+      });
+
+      if (newres.ok) {
+        return updateDraftById(
+          id,
+          title,
+          summary,
+          body,
+          headImageUrl,
+          action,
+          navigate,
+        );
       } else {
         navigate("/login");
         return;

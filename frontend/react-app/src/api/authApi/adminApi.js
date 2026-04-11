@@ -224,3 +224,8 @@ export async function getUsersList() {
     console.log("Error detected : ", error);
   }
 }
+
+
+// Need to add more PL/SQL functions.
+// Possibility is to basically to automate the whole process of entering the blog into the database!
+// Need to get this finished before  25/04/2026 

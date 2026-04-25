@@ -1,7 +1,6 @@
 import pool from "../config/dbconfig.js";
 
 export async function getBlogbyId(req, res) {
-
   try {
     const { id } = req.params;
     const [rows] = await pool.query(
@@ -40,27 +39,37 @@ export async function getBlogbyId(req, res) {
 export async function getCommentsById(req, res) {
   try {
     const { id } = req.params;
+    // const [rows] = await pool.query(
+    //   `
+    //     SELECT
+    //     a.commentId AS commentId,
+    //     CONCAT(b.firstName, ' ', b.lastName) AS commentAuthor,
+    //     a.commentBody AS comment,
+    //     a.commentedAt AS commentDate
+
+    //     FROM comments a
+    //     JOIN users b
+    //     ON a.userId = b.userId
+
+    //     WHERE
+    //     a.blogId = ?;
+    //     `,
+    //   [id],
+    // );
+
     const [rows] = await pool.query(
       `
-        SELECT 
-        a.commentId AS commentId,
-        CONCAT(b.firstName, ' ', b.lastName) AS commentAuthor,
-        a.commentBody AS comment,
-        a.commentedAt AS commentDate
-
-        FROM comments a
-        JOIN users b
-        ON a.userId = b.userId
-
-        WHERE 
-        a.blogId = ?;
-        `,
+      SELECT *
+      FROM blogCommentsView
+      WHERE blogId = ?;
+      `,
       [id],
     );
     // console.log(rows);
 
     return res.status(200).json({
-      message: "The blog comments has been fetched successfully on basis of id!",
+      message:
+        "The blog comments has been fetched successfully on basis of id!",
       rows: rows,
     });
   } catch (error) {
@@ -126,24 +135,33 @@ export async function addComment(req, res) {
         (?, ?, ?);`,
       [req.userId, id, commentBody],
     );
+    // const [rows] = await pool.query(
+    //   `
+    //     SELECT
+    //     a.commentId AS commentId,
+    //     CONCAT(b.firstName, ' ', b.lastName) AS commentAuthor,
+    //     a.commentBody AS comment,
+    //     a.commentedAt AS commentDate
+
+    //     FROM comments a
+    //     JOIN users b
+    //     ON a.userId = b.userId
+
+    //     WHERE
+    //     a.blogId = ?;
+    //     `,
+    //   [id],
+    // );
+    // console.log(rows);
+
     const [rows] = await pool.query(
       `
-        SELECT 
-        a.commentId AS commentId,
-        CONCAT(b.firstName, ' ', b.lastName) AS commentAuthor,
-        a.commentBody AS comment,
-        a.commentedAt AS commentDate
-
-        FROM comments a
-        JOIN users b
-        ON a.userId = b.userId
-
-        WHERE 
-        a.blogId = ?;
-        `,
+  SELECT *
+  FROM blogCommentsView
+  WHERE blogId = ?;
+  `,
       [id],
     );
-    // console.log(rows);
 
     return res.status(200).json({
       message: "The comment has been added for the respective blog.",
@@ -188,27 +206,35 @@ export async function alterUserReaction(req, res) {
 export async function getPublishedBlogs(req, res) {
   try {
     console.log("Hello world!");
+    // const [rows] = await pool.query(`
+    //     SELECT
+    //     CONCAT(a.firstName, ' ', a.lastName) AS Author,
+    //     b.blogId AS blogId,
+    //     b.title AS title,
+    //     b.summary AS summary,
+    //     b.createdAt AS createdAt,
+    //     COUNT(DISTINCT r.userId) AS likeCount,
+    //     COUNT(DISTINCT c.commentId) AS commentCount
+    //     FROM blogs b
+    //     INNER JOIN users a
+    //         ON a.userId = b.authorId
+    //     LEFT JOIN reactions r
+    //         ON r.blogId = b.blogId AND r.reaction = 'like'
+    //     LEFT JOIN comments c
+    //         ON c.blogId = b.blogId
+    //     WHERE b.status = 'published'
+    //     GROUP BY b.blogId
+    //     ORDER BY b.createdAt DESC
+    //     ;
+    // `);
+
+    //Created view
     const [rows] = await pool.query(`
-        SELECT 
-        CONCAT(a.firstName, ' ', a.lastName) AS Author,
-        b.blogId AS blogId, 
-        b.title AS title,
-        b.summary AS summary, 
-        b.createdAt AS createdAt,
-        COUNT(DISTINCT r.userId) AS likeCount,
-        COUNT(DISTINCT c.commentId) AS commentCount
-        FROM blogs b 
-        INNER JOIN users a 
-            ON a.userId = b.authorId 
-        LEFT JOIN reactions r 
-            ON r.blogId = b.blogId AND r.reaction = 'like'
-        LEFT JOIN comments c 
-            ON c.blogId = b.blogId
-        WHERE b.status = 'published' 
-        GROUP BY b.blogId
-        ORDER BY b.createdAt DESC 
-        ;
-    `);
+    SELECT *
+    FROM publishedBlogsView
+    ORDER BY createdAt DESC;
+`);
+
     // console.log(rows);
     res.status(200).json({
       message: "The published blogs have been fetched successfully!",
@@ -223,14 +249,17 @@ export async function getPublishedBlogs(req, res) {
 export async function roleChangeRequest(req, res) {
   try {
     console.log("The user is requesting for role change...");
-    await pool.query(
-      `
-    INSERT into roleChangelogs (requestedBy)
-    VALUES
-    (?);
-  `,
-      [req.userId],
-    );
+    //   await pool.query(
+    //     `
+    //   INSERT into roleChangelogs (requestedBy)
+    //   VALUES
+    //   (?);
+    // `,
+    //     [req.userId],
+    //   );
+
+    await pool.query("CALL roleChangeRequest(?);", [req.userId]);
+
     // const [rows] = await pool.query("SELECT * FROM roleChangelogs;");
     // console.log(rows);
     res.status(200).json({

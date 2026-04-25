@@ -3,17 +3,24 @@ import pool from "../config/dbconfig.js";
 export async function getAllSubmissions(req, res) {
   try {
     // console.log("The submissions have been fetched!");
+    // const [rows] = await pool.query(`
+    //     SELECT
+    //     CONCAT(u.firstName, ' ', u.lastName) AS authorName,
+    //     b.blogId,
+    //     b.title,
+    //     b.createdAt
+    //     FROM blogs b
+    //     INNER JOIN users u ON b.authorId = u.userId
+    //     WHERE b.status = 'submitted'
+    //     ORDER BY b.createdAt DESC;
+    //   `);
+
     const [rows] = await pool.query(`
-        SELECT 
-        CONCAT(u.firstName, ' ', u.lastName) AS authorName, 
-        b.blogId, 
-        b.title, 
-        b.createdAt 
-        FROM blogs b
-        INNER JOIN users u ON b.authorId = u.userId 
-        WHERE b.status = 'submitted' 
-        ORDER BY b.createdAt DESC;
-      `);
+    SELECT *
+    FROM submittedBlogsView
+    ORDER BY createdAt DESC;
+`);
+
     return res.status(200).json({
       message: "All the submissions have been sent successfully!",
       submissions: rows,
@@ -66,18 +73,23 @@ export async function getAdminSummary(req, res) {
 export async function getAdminRoleChangeRequests(req, res) {
   try {
     console.log("Fetching admin role change requests...");
+    // const [rows] = await pool.query(`
+    //   SELECT
+    //   r.requestId as requestId,
+    //   r.requestedBy as requestedBy,
+    //   r.createdAt as createdAt,
+    //   CONCAT(u.firstName, ' ', u.lastName) AS name
+    //   FROM
+    //       rolechangelogs r
+    //   INNER JOIN
+    //       users u ON r.requestedBy = u.userId
+    //   WHERE r.resolvedAt is NULL;
+    // `);
+
     const [rows] = await pool.query(`
-      SELECT 
-      r.requestId as requestId, 
-      r.requestedBy as requestedBy,
-      r.createdAt as createdAt,
-      CONCAT(u.firstName, ' ', u.lastName) AS name
-      FROM 
-          rolechangelogs r
-      INNER JOIN 
-          users u ON r.requestedBy = u.userId 
-      WHERE r.resolvedAt is NULL;
-    `);
+    SELECT *
+    FROM pendingRoleChangeRequestsView;
+`);
     // console.log(rows);
     return res.status(200).json({
       message: "Admin role change requests fetched successfully!",
@@ -136,12 +148,10 @@ export async function getUsersList(req, res) {
     const [rows] = await pool.query(`
     SELECT userId, CONCAT(firstName, " ", lastName) AS name, email,role 
     FROM users;`);
-    res
-      .status(200)
-      .json({
-        message: "Users list has been successfully fetched!",
-        users: rows,
-      });
+    res.status(200).json({
+      message: "Users list has been successfully fetched!",
+      users: rows,
+    });
   } catch (error) {
     console.log("Error detected! : ", error);
     return res.status(500).json({ message: "Internal server error!" });

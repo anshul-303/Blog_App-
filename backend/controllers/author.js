@@ -19,13 +19,22 @@ export async function AddBlogToDB(req, res) {
       return res.status(400).json({ message: "All fields are required!" });
     }
 
-    await pool.query(
-      `INSERT INTO blogs 
-        (authorId, title, summary, body, headImageUrl, status)  
-        VALUES (?, ?, ?, ?, ?, ?);
-            `,
-      [userId, title, summary, blogBody, headImageURL, status],
-    );
+    // await pool.query(
+    //   `INSERT INTO blogs
+    //     (authorId, title, summary, body, headImageUrl, status)
+    //     VALUES (?, ?, ?, ?, ?, ?);
+    //         `,
+    //   [userId, title, summary, blogBody, headImageURL, status],
+    // );
+
+    await pool.query("CALL createBlog(?, ?, ?, ?, ?, ?);", [
+      userId,
+      title,
+      summary,
+      blogBody,
+      headImageURL,
+      status,
+    ]);
 
     return res
       .status(201)
@@ -209,21 +218,32 @@ export async function updateDraftById(req, res) {
     const { body, title, summary, headImageUrl, action } = req.body;
     // console.log(id, body, title, summary, headImageUrl, action);
     const status = action === "submit" ? "submitted" : "draft";
-    await pool.query(
-      `
-    UPDATE blogs
-    SET 
-      title = ?, 
-      summary = ?, 
-      body = ?, 
-      headImageUrl = ?, 
-      updatedAt = NOW(), 
-      status = ? 
-    WHERE 
-      blogId = ?;
-    `,
-      [title, summary, body, headImageUrl, status, id],
-    );
+
+    // await pool.query(
+    //   `
+    // UPDATE blogs
+    // SET
+    //   title = ?,
+    //   summary = ?,
+    //   body = ?,
+    //   headImageUrl = ?,
+    //   updatedAt = NOW(),
+    //   status = ?
+    // WHERE
+    //   blogId = ?;
+    // `,
+    //   [title, summary, body, headImageUrl, status, id],
+    // );
+
+    await pool.query("CALL updateBlog(?, ?, ?, ?, ?, ?);", [
+      title,
+      summary,
+      body,
+      headImageUrl,
+      status,
+      id,
+    ]);
+
     return res.status(200).json({
       message: `The post has been successfully saved as ${status}!`,
     });
@@ -232,3 +252,10 @@ export async function updateDraftById(req, res) {
     return res.status(500).json({ message: "Internal server error!" });
   }
 }
+
+
+
+//Added procedures for creating blog, updating the draft in author's functions
+//Added procedures for creating role change requests in viewer's functions
+//Created a view for viewer latest published blogs in viewer's functions, getting list of comments
+//Created a view for admin UI for seeing a submissions by authors, roleChangRequests, 
